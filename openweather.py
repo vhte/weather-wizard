@@ -4,13 +4,15 @@ import requests
 class OpenWeatherMap:
     API_URL = "http://api.openweathermap.org/data/2.5/"
     ACTIONS = {
-        "forecast": "forecast",
-        "weather": "weather"
+        "weather": "weather",
+        "forecast": "forecast"
+        # TODO temp map
     }
 
     def __init__(self):
         self.__file = "api.key"
         self.__key = ""
+        self.__last_call = ""
 
     def __get_key(self):
         if not self.__key:
@@ -27,15 +29,25 @@ class OpenWeatherMap:
 
         return self.__key
 
-    def request(self, method, city):
-        if not self.ACTIONS[method.lower()]:
+    def __request(self, method, city):
+        # Construct api url and call
+        self.__last_call = self.API_URL + self.ACTIONS[method] + "?id=" + str(city) + "&APPID=" + self.__get_key()
+        response = requests.get(self.__last_call)
+        if response:
+            return response.json()
+        # TODO identify { "cod":401 }
+
+    def action(self, method, city):
+        method = method.lower()
+        if not self.ACTIONS[method]:
             for key in self.ACTIONS.keys():
                 keys = key + ", "
             raise OpenWeatherException("Action " + method + " not found in defined action list: " + keys.rstrip(", "))
-        else:
-            response = requests.get(self.API_URL + self.ACTIONS[method] + "?id=" + str(city) + "&APPID=" + self.__get_key())
-            if response:
-                return response.json()
+
+        return self.__request(method, city)
+
+    def get_url(self):
+        return self.__last_call
 
 
 # TODO Add origin __method__ for debug purposes
