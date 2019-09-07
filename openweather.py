@@ -19,10 +19,12 @@ class OpenWeatherMap:
             try:
                 file = open(self.__file, "r")
                 key = file.read().replace(" ", "")
-                if len(key) != 32:  # TODO validate real hex
+                if int(key, 16) and len(key) != 32:
                     raise OpenWeatherException("API Key invalid. Must be exactly 32 chars.")
             except FileNotFoundError:
                 raise OpenWeatherException("File api.key was not found. Add the OpenWeather API key inside that file.")
+            except ValueError:
+                raise OpenWeatherException("The API key is not hexadecimal valid.")
             else:
                 file.close()
                 self.__key = key
@@ -46,7 +48,7 @@ class OpenWeatherMap:
 
         return self.__request(method, city)
 
-    def get_url(self):
+    def get_last_call(self):
         return self.__last_call
 
 

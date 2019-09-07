@@ -4,12 +4,10 @@ from neural import NeuralNetwork
 
 try:
     ow = OpenWeatherMap()
-except OpenWeatherException as owe:
-    print("Unable to get OpenWeather key: " + owe.get_message())
-else:
     # 6325494 (Québec)
     print(ow.action("forecast", 6325494))
-    print(ow.get_url())
     # request.status_code / json()
+except OpenWeatherException as owe:
+    print("Error running OpenWeather: " + owe.get_message())
 finally:
     print("--- End of execution --")
