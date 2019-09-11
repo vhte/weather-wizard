@@ -1,0 +1,41 @@
+
+         "id":701,
+         "main":"Mist",
+         "description":"mist",
+         "icon":"50n"
+      }
+   ],
+   "base":"sta
+tions",
+   "main":{ 
+      "temp":286.13,
+      "pressure":1022,
+      "humidity":93,
+      "temp_min":285.15,
+      "temp_max":287.04
+   },
+   "visibility":8047,
+   "wind":{ 
+      "speed":1.5,
+      "deg":30
+   },
+   "rain":{ 
+      "1h":1.27
+   },
+   "clouds":{ 
+      "all":90
+   },
+   "dt":156816060   7,
+   "sys":{ 
+      "type":1,
+      "id":879,
+      "message":0.0092,
+      "country":"CA",
+      "sunrise":1568110555,
+      "sunset":1568156894
+   },
+   "timezone":-14400,
+   "id":6325494,
+   "name":"Quebec",
+   "cod":200
+}
