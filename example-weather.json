@@ -1,13 +1,24 @@
-
+{
+   "coord":{
+      "lon":-71.21,
+      "lat":46.81
+   },
+   "weather":[
+      {
+         "id":520,
+         "main":"Rain",
+         "description":"light intensity shower rain",
+         "icon":"09n"
+      },
+      {
          "id":701,
          "main":"Mist",
          "description":"mist",
          "icon":"50n"
       }
    ],
-   "base":"sta
-tions",
-   "main":{ 
+   "base":"stations",
+   "main":{
       "temp":286.13,
       "pressure":1022,
       "humidity":93,
@@ -15,18 +26,18 @@ tions",
       "temp_max":287.04
    },
    "visibility":8047,
-   "wind":{ 
+   "wind":{
       "speed":1.5,
       "deg":30
    },
-   "rain":{ 
+   "rain":{
       "1h":1.27
    },
-   "clouds":{ 
+   "clouds":{
       "all":90
    },
-   "dt":156816060   7,
-   "sys":{ 
+   "dt":1568160607,
+   "sys":{
       "type":1,
       "id":879,
       "message":0.0092,
