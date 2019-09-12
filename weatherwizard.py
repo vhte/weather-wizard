@@ -1,5 +1,5 @@
 from openweather import OpenWeatherMap, OpenWeatherException
-from neural import NeuralNetwork
+from neural import NeuralNetwork, NeuralException
 
 class WeatherWizard:
     def __init__(self, city):
@@ -21,10 +21,13 @@ class WeatherWizard:
         try:
             neural = NeuralNetwork()
             # request.status_code / json()
-            self.__last_response = neural.classify("walk", self.__ow.action("weather", self.__city))
+            self.__last_response = neural.classify("bike", self.__ow.action("weather", self.__city))
         except OpenWeatherException as owe:
             self.__last_response.cod = -1
             self.__last_response.response = "Error running OpenWeather: " + owe.get_message()
+        except NeuralException as nn:
+            self.__last_response.cod = -1
+            self.__last_response.response = "Neural network error: " + nn.get_message()
 
         return self.__last_response
 
