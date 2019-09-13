@@ -10,14 +10,23 @@ class NeuralNetwork:
         pass
 
     def classify(self, vehicle, weather):
+        """
+        Classifies if using "vehicle" during "weather" is a good decision
+
+        Ags
+            vehicle (str): Which vehicle user is using to transit. See VEHICLES
+            weather (dict): The result in JSON of current weather method got from OpenWeather
+        Returns
+            classification (bool): If the combination of arguments is a good match
+        """
         if vehicle not in self.VEHICLES:
             raise NeuralException("Vehicle " + vehicle + " was not found in defined vehicle list: " + self.VEHICLES)
 
         # Adding a simple condition for test purposes
         if weather["main"]["temp_min"] <= 280 and vehicle == "bike":
-            classification = "It's cold. Don't go by bike."
+            classification = True
         else:
-            classification = "It's good to go by bike."
+            classification = False
 
         return classification
 
