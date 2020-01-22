@@ -1,47 +1,55 @@
 from openweather import OpenWeatherMap, OpenWeatherException
-from neural import NeuralNetwork, NeuralException
 
 
 class WeatherWizard:
+    ANIMATION_SUN = "anim_sunny"
+    ANIMATION_RAIN = "anim_rain"
+    ANIMATION_CLOUDS = "anim_cloudy"
+    ANIMATION_SNOW = "anim_snowy"
+
     def __init__(self, city):
         self.__ow = OpenWeatherMap()
-        self.__last_response_model = {"cod": 0, "method": "", "vehicle": "", "response": False}
+        self.__last_response_model = {
+            "cod": 0,
+            "city": "",
+            "country": "",
+            "temperature": 0.0,
+            "wind": 0.0,
+            "animation": "",
+        }
         self.__last_response = self.__last_response_model
         self.__city = city
         self.__error = ""
 
-    def weather(self):
+    def weather(self, city):
         """
-        Abstracts a human readable weather for the current time
+        Get weather information about a chosen city
 
         Args
-
+            city:
         Raises
             OpenWeatherException: A unexpected behavior when calling OpenWeather API
         Returns
-            __last_response (dict): Dictionary in format {"cod": (int), "method": (str), "vehicle": (str), "response": (bool)}
+            __last_response (dict): Dictionary in format {"cod": (int), "city": (str), "country": (str), "temperature": (real), "wind": (real), "animation": (str)}
         """
         try:
-            neural = NeuralNetwork()
-            method = "weather"
-            vehicle = "bike"
 
             # request.status_code
-            response = neural.classify(method, self.__ow.action(method, self.__city))
+            ow = OpenWeatherMap()
+            response = ow.action("weather", city)
 
-            self.__last_response.cod = 1
-            self.__last_response.method = method
-            self.__last_response.vehicle = vehicle
-            self.__last_response.response = response
+            self.__last_response.cod = response.cod
+            self.__last_response.city = response.name
+            self.__last_response.country = response.sys.country
+            self.__last_response.temperature = self.kelvin_to_celsius(response.main.temp)
+            self.__last_response.wind = self.ms_to_kmh(response.wind.speed)
+            self.__last_response.animation = self.ANIMATION_SUN
+
             self.__error = ""
         except OpenWeatherException as owe:
             self.__reset()
             self.__last_response.cod = -1
             self.__error = "Error running OpenWeather: " + owe.get_message()
-        except NeuralException as nn:
-            self.__reset()
-            self.__last_response.cod = -1
-            self.__error = "Neural network error: " + nn.get_message()
 
         return self.__last_response
 
@@ -56,4 +64,3 @@ class WeatherWizard:
     @classmethod
     def ms_to_kmh(cls, speed):
         return speed * 3.6
-
