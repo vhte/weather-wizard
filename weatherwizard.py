@@ -7,7 +7,7 @@ class WeatherWizard:
     ANIMATION_CLOUDS = "anim_cloudy"
     ANIMATION_SNOW = "anim_snowy"
 
-    def __init__(self, city):
+    def __init__(self, city=False):
         self.__ow = OpenWeatherMap()
         self.__last_response_model = {
             "cod": 0,
@@ -15,13 +15,15 @@ class WeatherWizard:
             "country": "",
             "temperature": 0.0,
             "wind": 0.0,
-            "animation": "",
+            "feels_like": 0.0,
+            "animation": self.ANIMATION_SUN,
         }
         self.__last_response = self.__last_response_model
-        self.__city = city
+        if city:
+            self.__city = city
         self.__error = ""
 
-    def weather(self, city):
+    def weather(self):
         """
         Get weather information about a chosen city
 
@@ -36,26 +38,42 @@ class WeatherWizard:
 
             # request.status_code
             ow = OpenWeatherMap()
-            response = ow.action("weather", city)
 
-            self.__last_response.cod = response.cod
-            self.__last_response.city = response.name
-            self.__last_response.country = response.sys.country
-            self.__last_response.temperature = self.kelvin_to_celsius(response.main.temp)
-            self.__last_response.wind = self.ms_to_kmh(response.wind.speed)
-            self.__last_response.animation = self.ANIMATION_SUN
+            # Get data from city and store useful content
+            response = ow.action("weather", self.__city)
 
+            self.__last_response = {
+                "cod": response["cod"],
+                "city": response["name"],
+                "country": response["sys"]["country"],
+                "temperature": self.kelvin_to_celsius(response["main"]["temp"]),
+                "wind": self.ms_to_kmh(response["wind"]["speed"]),
+                "feels_like": self.kelvin_to_celsius(response["main"]["feels_like"]),
+                "animation": self.ANIMATION_CLOUDS
+            }
+
+            # Reset error message if any
             self.__error = ""
+
+        # TODO owe and e must not be equal
         except OpenWeatherException as owe:
             self.__reset()
-            self.__last_response.cod = -1
+            self.__last_response["cod"] = -1
             self.__error = "Error running OpenWeather: " + owe.get_message()
+        except Exception as e:
+            self.__reset()
+            self.__last_response["cod"] = -1
+            self.__error = "Error running WeatherWizard: " + str(e)
 
         return self.__last_response
 
     def __reset(self):
         self.__last_response = self.__last_response_model
         self.__error = ""
+
+    # TODO validate city
+    def __set_city(self, city):
+        self.__city = city
 
     @classmethod
     def kelvin_to_celsius(cls, temperature):

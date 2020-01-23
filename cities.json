@@ -1,3 +1,37 @@
 {
-  "cities": ["Toronto", "Montréal", "Vancouver", "Calgary", "Edmonton", "Ottawa", "Winnipeg", "Québec",  "Hamilton", "Kitchener"]
+  "countries": {
+    "CA": [
+      [6094817, "Ottawa"],
+      [6324733, "St. John"],
+      [5969423, "Halifax"],
+      [5957776, "Fredericton"],
+      [5920288, "Charlottetown"],
+      [6325494, "Québec"],
+      [6167865, "Toronto"],
+      [6183235, "Winnipeg"],
+      [6119109, "Regina"],
+      [5946768, "Edmonton"],
+      [6174041, "Victoria"],
+      [5983720, "Iqaluit"],
+      [6185377, "Yellowknife"],
+      [6180550, "Whitehorse"]
+    ],
+    "US": [
+      [4140963, "Washington (DC)"],
+      [5554072, "Juneau"],
+      [4905873, "Phoenix"],
+      [4174715, "Tallahassee"],
+      [5856195, "Honolulu"],
+      [4183849, "Boston"],
+      [4282305, "Albany"],
+      [4254010, "Austin"]
+    ],
+    "BR": [
+      [3469058, "Brasília"],
+      [3451190, "Rio de Janeiro"],
+      [3663517, "Manaus"],
+      [3452925, "Porto Alegre"],
+      [3397277, "João Pessoa"]
+    ]
+  }
 }
