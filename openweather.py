@@ -20,9 +20,13 @@ class OpenWeatherMap:
                 file = open(self.__file, "r")
                 key = file.read().replace(" ", "")
                 if int(key, 16) and len(key) != 32:
-                    raise OpenWeatherException("API Key invalid. Must be exactly 32 chars.")
+                    raise OpenWeatherException(
+                        "API Key invalid. Must be exactly 32 chars."
+                    )
             except FileNotFoundError:
-                raise OpenWeatherException("File api.key was not found. Add the OpenWeather API key inside that file.")
+                raise OpenWeatherException(
+                    "File api.key was not found. Add the OpenWeather API key inside that file."
+                )
             except ValueError:
                 raise OpenWeatherException("The API key is not hexadecimal valid.")
             else:
@@ -33,7 +37,14 @@ class OpenWeatherMap:
 
     def __request(self, method, city):
         # Construct api url and call
-        self.__last_call = self.API_URL + self.ACTIONS[method] + "?id=" + str(city) + "&APPID=" + self.__get_key()
+        self.__last_call = (
+            self.API_URL
+            + self.ACTIONS[method]
+            + "?id="
+            + str(city)
+            + "&APPID="
+            + self.__get_key()
+        )
         response = requests.get(self.__last_call)
         if response:
             return response.json()
@@ -41,10 +52,12 @@ class OpenWeatherMap:
 
     def action(self, method, city):
         method = method.lower()
-        if not self.ACTIONS[method]:
-            for key in self.ACTIONS.keys():
-                keys = key + ", "
-            raise OpenWeatherException("Action " + method + " not found in defined action list: " + keys.rstrip(", "))
+        if method not in self.ACTIONS:
+            raise OpenWeatherException(
+                "Action {} not found in defined action list: {}".format(
+                    method, list(self.ACTIONS.keys())
+                )
+            )
 
         return self.__request(method, city)
 
@@ -53,9 +66,8 @@ class OpenWeatherMap:
 
 
 # TODO Add origin __method__ for debug purposes
-class OpenWeatherException(Exception):
+class OpenWeatherException(BaseException):
     def __init__(self, message):
-        super().__init__(message)
         self.__message = message
 
     def get_message(self):

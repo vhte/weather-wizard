@@ -19,8 +19,8 @@ class WeatherWizard:
             "animation": self.ANIMATION_SUN,
         }
         self.__last_response = self.__last_response_model
-        if city:
-            self.__city = city
+        self.__city = city if city else 0
+
         self.__error = ""
 
     def weather(self):
@@ -34,8 +34,10 @@ class WeatherWizard:
         Returns
             __last_response (dict): Dictionary in format {"cod": (int), "city": (str), "country": (str), "temperature": (real), "wind": (real), "animation": (str)}
         """
-        try:
+        if not self.__city:
+            raise Exception("City was not defined.")
 
+        try:
             # request.status_code
             ow = OpenWeatherMap()
 
@@ -58,14 +60,13 @@ class WeatherWizard:
         # TODO owe and e must not be equal
         except OpenWeatherException as owe:
             self.__reset()
-            self.__last_response["cod"] = -1
             self.__error = "Error running OpenWeather: " + owe.get_message()
-        except Exception as e:
-            self.__reset()
-            self.__last_response["cod"] = -1
-            self.__error = "Error running WeatherWizard: " + str(e)
+            raise Exception(self.__error)
 
         return self.__last_response
+
+    def set_city(self, city):
+        self.__city = city
 
     def __reset(self):
         self.__last_response = self.__last_response_model
