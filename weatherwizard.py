@@ -6,6 +6,8 @@ class WeatherWizard:
     ANIMATION_RAIN = "anim_rain"
     ANIMATION_CLOUDS = "anim_cloudy"
     ANIMATION_SNOW = "anim_snowy"
+    ANIMATION_COLD = "anim_cold"
+    ANIMATION_HOT = "anim_hot"
 
     def __init__(self, city=False):
         self.__ow = OpenWeatherMap()
@@ -44,6 +46,9 @@ class WeatherWizard:
             # Get data from city and store useful content
             response = ow.action("weather", self.__city)
 
+            # Decide animation
+            animation = self.__set_animation(response)
+
             self.__last_response = {
                 "cod": response["cod"],
                 "city": response["name"],
@@ -51,7 +56,7 @@ class WeatherWizard:
                 "temperature": self.kelvin_to_celsius(response["main"]["temp"]),
                 "wind": self.ms_to_kmh(response["wind"]["speed"]),
                 "feels_like": self.kelvin_to_celsius(response["main"]["feels_like"]),
-                "animation": self.ANIMATION_CLOUDS
+                "animation": animation
             }
 
             # Reset error message if any
@@ -67,6 +72,16 @@ class WeatherWizard:
 
     def set_city(self, city):
         self.__city = city
+
+    def __set_animation(self, response):
+        # Assuming response is a valid return from OpenWeather
+        # TODO reorganize to mix wind/feels_like/rain|snow
+        if response["feels_like"] < 0.0:
+            return self.ANIMATION_COLD
+        elif response["feels_like"] > 30.0:
+            return self.ANIMATION_HOT
+
+        return self.ANIMATION_SUN
 
     def __reset(self):
         self.__last_response = self.__last_response_model
