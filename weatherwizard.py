@@ -22,6 +22,7 @@ class WeatherWizard:
         }
         self.__last_response = self.__last_response_model
         self.__city = city if city else 0
+        self.__precision = 2
 
         self.__error = ""
 
@@ -53,9 +54,9 @@ class WeatherWizard:
                 "cod": response["cod"],
                 "city": response["name"],
                 "country": response["sys"]["country"],
-                "temperature": self.kelvin_to_celsius(response["main"]["temp"]),
-                "wind": self.ms_to_kmh(response["wind"]["speed"]),
-                "feels_like": self.kelvin_to_celsius(response["main"]["feels_like"]),
+                "temperature": self.__set_precision(self.kelvin_to_celsius(response["main"]["temp"])),
+                "wind": self.__set_precision(self.ms_to_kmh(response["wind"]["speed"])),
+                "feels_like": self.__set_precision(self.kelvin_to_celsius(response["main"]["feels_like"])),
                 "animation": animation
             }
 
@@ -76,9 +77,9 @@ class WeatherWizard:
     def __set_animation(self, response):
         # Assuming response is a valid return from OpenWeather
         # TODO reorganize to mix wind/feels_like/rain|snow
-        if response["feels_like"] < 0.0:
+        if response["main"]["feels_like"] < 0.0:
             return self.ANIMATION_COLD
-        elif response["feels_like"] > 30.0:
+        elif response["main"]["feels_like"] > 30.0:
             return self.ANIMATION_HOT
 
         return self.ANIMATION_SUN
@@ -90,6 +91,9 @@ class WeatherWizard:
     # TODO validate city
     def __set_city(self, city):
         self.__city = city
+
+    def __set_precision(self, number):
+        return round(number, self.__precision)
 
     @classmethod
     def kelvin_to_celsius(cls, temperature):

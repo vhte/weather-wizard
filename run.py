@@ -15,7 +15,7 @@ try:
         print("BR city {} current weather: ".format(city[1]))
         ww.set_city(city[0])
         weather = ww.weather()
-        print(weather)
+        print("Temperature: {}ºC\nWind: {}km/h\nFeels like: {}ºC".format(weather["temperature"], weather["wind"], weather["feels_like"]))
 except Exception as e:
     print("Error when trying to fetch weather for city {}: {}".format(city[1], e))
 
