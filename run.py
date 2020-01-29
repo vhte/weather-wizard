@@ -11,7 +11,7 @@ for country in json_data["countries"]:
 
 try:
     ww = WeatherWizard()
-    for city in json_data["countries"]["BR"]:
+    for city in json_data["countries"]["CA"]:
         print("BR city {} current weather: ".format(city[1]))
         ww.set_city(city[0])
         weather = ww.weather()

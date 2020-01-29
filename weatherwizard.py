@@ -2,12 +2,17 @@ from openweather import OpenWeatherMap, OpenWeatherException
 
 
 class WeatherWizard:
-    ANIMATION_SUN = "anim_sunny"
-    ANIMATION_RAIN = "anim_rain"
-    ANIMATION_CLOUDS = "anim_cloudy"
-    ANIMATION_SNOW = "anim_snowy"
-    ANIMATION_COLD = "anim_cold"
-    ANIMATION_HOT = "anim_hot"
+    # Independent weather
+    ANIMATION_SUN = 0
+    ANIMATION_CLOUDS = 1
+    ANIMATION_RAIN = 2
+    ANIMATION_SNOW = 4
+
+    # Dependence
+    ANIMATION_COLD = 8
+    ANIMATION_HOT = 16
+    ANIMATION_WIND = 32
+    ANIMATION_THUNDER = 64
 
     def __init__(self, city=False):
         self.__ow = OpenWeatherMap()
@@ -22,6 +27,7 @@ class WeatherWizard:
         }
         self.__last_response = self.__last_response_model
         self.__city = city if city else 0
+        # Temperature and wind precision (user)
         self.__precision = 2
 
         self.__error = ""
@@ -50,12 +56,14 @@ class WeatherWizard:
             # Decide animation
             animation = self.__set_animation(response)
 
+            # TODO find snow/rain
             self.__last_response = {
                 "cod": response["cod"],
                 "city": response["name"],
                 "country": response["sys"]["country"],
                 "temperature": self.__set_precision(self.kelvin_to_celsius(response["main"]["temp"])),
                 "wind": self.__set_precision(self.ms_to_kmh(response["wind"]["speed"])),
+                "humidity": self.__set_precision(response["main"]["humidity"]),
                 "feels_like": self.__set_precision(self.kelvin_to_celsius(response["main"]["feels_like"])),
                 "animation": animation
             }
@@ -77,10 +85,17 @@ class WeatherWizard:
     def __set_animation(self, response):
         # Assuming response is a valid return from OpenWeather
         # TODO reorganize to mix wind/feels_like/rain|snow
-        if response["main"]["feels_like"] < 0.0:
-            return self.ANIMATION_COLD
-        elif response["main"]["feels_like"] > 30.0:
-            return self.ANIMATION_HOT
+        # Bitwise operation
+
+        windy = 20.0
+        cold = 0.0
+        hot = 30.0
+
+        res = 0
+        if response["main"]["feels_like"] < cold:
+            res = res + self.ANIMATION_COLD
+        elif response["main"]["feels_like"] > hot:
+            res = res + self.ANIMATION_HOT
 
         return self.ANIMATION_SUN
 
