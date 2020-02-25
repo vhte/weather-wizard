@@ -7,10 +7,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
         selectElement.addEventListener("change", (event) => {
             while(cities.firstChild) cities.removeChild(cities.firstChild);
 
-            currentCountry.textContent = selectElement.options[selectElement.selectedIndex].textContent;
-            const elem = document.createElement("li");
-            elem.appendChild(document.createTextNode("Get from json"));
+            // pick selected country
+            const country = selectElement.options[selectElement.selectedIndex];
+            currentCountry.textContent = country.textContent;
 
-            cities.appendChild(elem);
+            // get from json
+            fetch("cities.json").then((response) => {
+                return response.json();
+            }).then((json) => {
+                // console.log(json["countries"][country.value].length);
+                // Enumerate cities
+                for(let i = 0;i < json["countries"][country.value].length;i++) {
+                    let elem = document.createElement("li");
+                    elem.appendChild(document.createTextNode(json["countries"][country.value][i][1] + ": TODO"));
+                    cities.appendChild(elem);
+                };
+            });
+
         });
 });
