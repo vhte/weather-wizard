@@ -1,3 +1,10 @@
+function get_weather_data(cities_ids) {
+    const XHR = new XMLHttpRequest();
+    XHR.open("POST", "http://localhost:8000/")
+    XHR.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    return XHR.send(encodeURIComponent(cities_ids))
+}
+
 window.addEventListener('DOMContentLoaded', (event) => {
     const selectElement = document.querySelector("#country");
     const currentCountry = document.querySelector("#country_label");
@@ -15,7 +22,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             fetch("cities.json").then((response) => {
                 return response.json();
             }).then((json) => {
-                // console.log(json["countries"][country.value].length);
+                // POST
+                post_result = get_weather_data(json["countries"][country.value].map(city => city[0]))
+                console.log(post_result)
+
                 // Enumerate cities
                 for(let i = 0;i < json["countries"][country.value].length;i++) {
                     let elem = document.createElement("li");

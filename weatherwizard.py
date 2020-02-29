@@ -61,11 +61,15 @@ class WeatherWizard:
                 "cod": response["cod"],
                 "city": response["name"],
                 "country": response["sys"]["country"],
-                "temperature": self.__set_precision(self.kelvin_to_celsius(response["main"]["temp"])),
+                "temperature": self.__set_precision(
+                    self.kelvin_to_celsius(response["main"]["temp"])
+                ),
                 "wind": self.__set_precision(self.ms_to_kmh(response["wind"]["speed"])),
                 "humidity": self.__set_precision(response["main"]["humidity"]),
-                "feels_like": self.__set_precision(self.kelvin_to_celsius(response["main"]["feels_like"])),
-                "animation": animation
+                "feels_like": self.__set_precision(
+                    self.kelvin_to_celsius(response["main"]["feels_like"])
+                ),
+                "animation": animation,
             }
 
             # Reset error message if any
