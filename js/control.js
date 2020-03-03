@@ -17,9 +17,28 @@ function get_weather_data(cities_ids) {
 }
 
 function weather_text(data) {
-    return data["city"] + " | Temperature: " + data["temperature"] + "ºC" +
-                    " | Wind: " + data["wind"] + "km/h" +
-                    " | Feels like: " + data["feels_like"] + "ºC";
+    let name = document.createElement("h3");
+    name.textContent = data["city"];
+
+    let temperature = document.createElement("p");
+    temperature.textContent = "Temperature: ";
+    let value = document.createElement("span");
+    value.textContent = data["temperature"] + "ºC";
+    temperature.appendChild(value);
+
+    let wind = document.createElement("p");
+    wind.textContent = "Wind: ";
+    value = document.createElement("span");
+    value.textContent = data["wind"] + "km/h";
+    wind.appendChild(value);
+
+    let feels_like = document.createElement("p");
+    feels_like.textContent = "Feels like: ";
+    value = document.createElement("span");
+    value.textContent = data["feels_like"] + "ºC";
+    feels_like.appendChild(value);
+
+    return [name, temperature, wind, feels_like];
 }
 
 window.addEventListener('DOMContentLoaded', (event) => {
@@ -48,12 +67,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // Enumerate cities
                 for(let i = 0;i < post_result.length;i++) {
                     let elem = document.createElement("li");
-                    elem.appendChild(document.createTextNode(weather_text(post_result[i])));
+                    elem.classList.add("sun");
+                    let weather = weather_text(post_result[i])
+                    for(let j = 0;j < weather.length;j++)
+                        elem.appendChild(weather[j]);
+
                     cities.appendChild(elem);
                 }
             });
         });
     });
+
+    // Trigger manually a change event
     var event = new Event('change');
     selectElement.dispatchEvent(event);
 });

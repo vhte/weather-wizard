@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather Wizard</title>
-    <script src="control.js"></script>
+    <script src="js/control.js"></script>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-    <h1>Weather Wizard</h1>
-    <h2>Currently showing: <span id="country_label">{COUNTRY}</span></h2>
-    <h3>Select country: <select id="country">
-        <option value="CA">Canada</option>
-        <option value="US">USA</option>
-        <option value="BR">Brazil</option>
-    </select></h3>
+    <header>
+        <h1>Weather Wizard</h1>
+        <h2>Currently showing: <span id="country_label"></span></h2>
+        <nav>
+            <select id="country" class="select-css">
+                <option value="CA">Canada</option>
+                <option value="US">USA</option>
+                <option value="BR">Brazil</option>
+            </select>
+        </nav>
+    </header>
 
-    <ul id="cities">
-        <li></li>
-    </ul>
+    <main>
+        <hr/>
+        <ul id="cities">
+            <li></li>
+        </ul>
+    </main>
 </body>
 </html>
