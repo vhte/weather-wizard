@@ -27,18 +27,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.header()
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length)
-        print("Original post data: {}".format(post_data))
         # str bytes to list
         cities_ids = post_data.decode('utf-8').strip("[]").split(",")
         # post_data = parse.parse_qs(parse.unquote(post_data.decode(self.__encoding)))
-        print("Transformed post data: {}".format(cities_ids))
 
         ww = WeatherWizard()
         result = []
         for city in cities_ids:
             ww.set_city(city)
             result.append(ww.weather())
-        print(result)
+        # print(result)
 
         self.wfile.write(bytes(json.dumps(result), self.__encoding))
         # r = requests.post("http://localhost:8000/", data={'foo': 'bar', 'weather': 'wizard'}) r.text

@@ -67,8 +67,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 // Enumerate cities
                 for(let i = 0;i < post_result.length;i++) {
                     let elem = document.createElement("li");
-                    elem.classList.add("sun");
-                    let weather = weather_text(post_result[i])
+                    elem.classList.add(post_result[i]["animation"]);
+                    let weather = weather_text(post_result[i]);
                     for(let j = 0;j < weather.length;j++)
                         elem.appendChild(weather[j]);
 

@@ -4,14 +4,14 @@ from openweather import OpenWeatherMap, OpenWeatherException
 class WeatherWizard:
     # Independent weather
     ANIMATION_SUN = 0
-    ANIMATION_CLOUDS = 1
+    ANIMATION_CLOUDS = "clouds"
     ANIMATION_RAIN = 2
     ANIMATION_SNOW = 4
 
     # Dependence
-    ANIMATION_COLD = 8
-    ANIMATION_HOT = 16
-    ANIMATION_WIND = 32
+    ANIMATION_COLD = "cold"
+    ANIMATION_HOT = "sun"
+    ANIMATION_WIND = "wind"
     ANIMATION_THUNDER = 64
 
     def __init__(self, city=False):
@@ -53,6 +53,11 @@ class WeatherWizard:
             # Get data from city and store useful content
             response = ow.action("weather", self.__city)
 
+            # Human readable conversions
+            response["main"]["temp"] = self.kelvin_to_celsius(response["main"]["temp"])
+            response["main"]["feels_like"] = self.kelvin_to_celsius(response["main"]["feels_like"])
+            response["wind"]["speed"] = self.ms_to_kmh(response["wind"]["speed"])
+
             # Decide animation
             animation = self.__set_animation(response)
 
@@ -61,14 +66,10 @@ class WeatherWizard:
                 "cod": response["cod"],
                 "city": response["name"],
                 "country": response["sys"]["country"],
-                "temperature": self.__set_precision(
-                    self.kelvin_to_celsius(response["main"]["temp"])
-                ),
-                "wind": self.__set_precision(self.ms_to_kmh(response["wind"]["speed"])),
+                "temperature": self.__set_precision(response["main"]["temp"]),
+                "wind": self.__set_precision(response["wind"]["speed"]),
                 "humidity": self.__set_precision(response["main"]["humidity"]),
-                "feels_like": self.__set_precision(
-                    self.kelvin_to_celsius(response["main"]["feels_like"])
-                ),
+                "feels_like": self.__set_precision(response["main"]["feels_like"]),
                 "animation": animation,
             }
 
@@ -95,13 +96,16 @@ class WeatherWizard:
         cold = 0.0
         hot = 30.0
 
-        res = 0
+        res = self.ANIMATION_CLOUDS
         if response["main"]["feels_like"] < cold:
-            res = res + self.ANIMATION_COLD
+            res = self.ANIMATION_COLD
         elif response["main"]["feels_like"] > hot:
-            res = res + self.ANIMATION_HOT
+            res = self.ANIMATION_HOT
 
-        return self.ANIMATION_SUN
+        if response["wind"]["speed"] > windy:
+            res = self.ANIMATION_WIND
+
+        return res
 
     def __reset(self):
         self.__last_response = self.__last_response_model

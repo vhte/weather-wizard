@@ -82,6 +82,12 @@ li.clouds::before {
 li.rain::before {
     content: "\1F328";
 }
+li.cold::before {
+    content: "\2744";
+}
+li.wind::before {
+    content: "\1F32C";
+}
 
 /* Select */
 .select-css {
