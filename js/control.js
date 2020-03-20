@@ -1,18 +1,25 @@
 function get_weather_data(cities_ids) {
     return new Promise((resolve, reject) => {
         const XHR = new XMLHttpRequest();
-        XHR.open("POST", "http://localhost:8000/");
-        XHR.setRequestHeader("Content-type", "application/json");
         //return XHR.send(encodeURIComponent(cities_ids))
         XHR.onload = function(e) {
-            if(XHR.readyState === 4)
+            if(XHR.readyState === 4) {
                 if(XHR.status === 200)
                     resolve(JSON.parse(XHR.responseText));
-                else
-                    console.error(XHR.statusText);
+                else {
+                    console.warn(XHR.statusText);
                     reject(XHR.statusText);
+                }
+            }
         }
+        XHR.onerror = function(e){
+            reject("Something went wrong when trying to connect to the server.");
+        };
+
+        XHR.open("POST", "http://localhost:8000/");
+        XHR.setRequestHeader("Content-type", "application/json");
         XHR.send(JSON.stringify(cities_ids));
+
     });
 }
 
@@ -49,6 +56,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     selectElement.addEventListener("change", (event) => {
         while(cities.children.length > 1) cities.removeChild(cities.firstChild);
+        cities.children[0].className = "loading";
         cities.children[0].textContent = "Loading ..."; // investigate why firstChild doesn't work well
 
         // pick selected country
@@ -61,7 +69,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }).then((json) => {
             const country_cities = json["countries"][country.value]
             // POST
-            get_weather_data(country_cities.map(city => city[0])).then((post_result) => {
+            get_weather_data(country_cities.map(city => city[0]))
+            .then((post_result) => {
                 console.log(post_result);
                 cities.removeChild(cities.children[0]);
                 // Enumerate cities
@@ -74,6 +83,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
                     cities.appendChild(elem);
                 }
+            })
+            .catch((text) => {
+                console.warn(text);
+                cities.children[0].textContent = "There was an error when fetching data from server. Try again!";
+                cities.children[0].classList.remove("loading");
+                cities.children[0].classList.add("error");
             });
         });
     });

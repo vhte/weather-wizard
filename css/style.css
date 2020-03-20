@@ -65,10 +65,12 @@ li {
 }
 li::before {
     font-size:126px;
-    opacity:0.3;
+    opacity:0.2;
     position:absolute;
     margin-left:40px;
     margin-top:10px;
+    font-family: "Segoe UI Emoji";
+    z-index:-1;
 }
 li p span {
     font-weight:bold;
@@ -87,6 +89,12 @@ li.cold::before {
 }
 li.wind::before {
     content: "\1F32C";
+}
+li.error::before {
+    content: "\2049";
+}
+li.loading::before {
+    content: "\1F4E1";
 }
 
 /* Select */
