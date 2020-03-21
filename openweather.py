@@ -1,8 +1,10 @@
+import os
 import requests
 
 
 class OpenWeatherMap:
     API_URL = "http://api.openweathermap.org/data/2.5/"
+    API_KEY = "api.key"
     ACTIONS = {
         "weather": "weather",
         "forecast": "forecast"
@@ -10,7 +12,7 @@ class OpenWeatherMap:
     }
 
     def __init__(self):
-        self.__file = "api.key"
+        self.__file = os.path.join(os.path.dirname(__file__), self.API_KEY)
         self.__key = ""
         self.__last_call = ""
 
@@ -37,13 +39,8 @@ class OpenWeatherMap:
 
     def __request(self, method, city):
         # Construct api url and call
-        self.__last_call = (
-            self.API_URL
-            + self.ACTIONS[method]
-            + "?id="
-            + str(city)
-            + "&APPID="
-            + self.__get_key()
+        self.__last_call = "{}{}?id={}&APPID={}".format(
+            self.API_URL, self.ACTIONS[method], str(city), self.__get_key()
         )
         response = requests.get(self.__last_call)
         if response:

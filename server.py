@@ -18,8 +18,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
@@ -28,7 +28,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         content_length = int(self.headers["Content-Length"])
         post_data = self.rfile.read(content_length)
         # str bytes to list
-        cities_ids = post_data.decode('utf-8').strip("[]").split(",")
+        cities_ids = post_data.decode("utf-8").strip("[]").split(",")
         # post_data = parse.parse_qs(parse.unquote(post_data.decode(self.__encoding)))
 
         ww = WeatherWizard()

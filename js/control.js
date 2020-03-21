@@ -1,7 +1,7 @@
 function get_weather_data(cities_ids) {
     return new Promise((resolve, reject) => {
         const XHR = new XMLHttpRequest();
-        //return XHR.send(encodeURIComponent(cities_ids))
+
         XHR.onload = function(e) {
             if(XHR.readyState === 4) {
                 if(XHR.status === 200)

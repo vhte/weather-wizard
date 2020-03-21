@@ -55,7 +55,9 @@ class WeatherWizard:
 
             # Human readable conversions
             response["main"]["temp"] = self.kelvin_to_celsius(response["main"]["temp"])
-            response["main"]["feels_like"] = self.kelvin_to_celsius(response["main"]["feels_like"])
+            response["main"]["feels_like"] = self.kelvin_to_celsius(
+                response["main"]["feels_like"]
+            )
             response["wind"]["speed"] = self.ms_to_kmh(response["wind"]["speed"])
 
             # Decide animation
