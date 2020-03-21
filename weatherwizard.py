@@ -53,6 +53,9 @@ class WeatherWizard:
             # Get data from city and store useful content
             response = ow.action("weather", self.__city)
 
+            if response is None:
+                raise ("City {} not found.".format(str(self.__city)))
+
             # Human readable conversions
             response["main"]["temp"] = self.kelvin_to_celsius(response["main"]["temp"])
             response["main"]["feels_like"] = self.kelvin_to_celsius(

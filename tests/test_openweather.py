@@ -29,5 +29,5 @@ def test_raises_unlisted_action(open_weather):
 
 
 def test_raises_missing_api_key(open_weather_unknown_key):
-    with pytest.raises(OpenWeatherException):
+    with pytest.raises(FileNotFoundError):
         open_weather_unknown_key.action("weather", CITY)

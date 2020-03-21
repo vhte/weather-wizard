@@ -26,11 +26,11 @@ class OpenWeatherMap:
                         "API Key invalid. Must be exactly 32 chars."
                     )
             except FileNotFoundError:
-                raise OpenWeatherException(
+                raise FileNotFoundError(
                     "File api.key was not found. Add the OpenWeather API key inside that file."
                 )
             except ValueError:
-                raise OpenWeatherException("The API key is not hexadecimal valid.")
+                raise ValueError("The API key is not hexadecimal valid.")
             else:
                 file.close()
                 self.__key = key
