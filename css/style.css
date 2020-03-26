@@ -68,12 +68,12 @@ li {
     margin-right:15px;
     margin-bottom:15px;
 }
-li:after {
-    animation: spin 1s linear infinite;
+
+li::after {
     width:200px;
     height:200px;
-    margin-left:-3px;
-    margin-top:-3px;
+    margin-left:-0.15em;
+    margin-top:-0.15em;
     content:'';
     background:#ccc;
     position:absolute;
@@ -82,7 +82,6 @@ li:after {
     z-index:-1;
     border-radius:100%;
     border: double 0.5em transparent;
-    background-image: linear-gradient(white, white), linear-gradient(to right, green, gold);
     background-origin: border-box;
     background-clip: padding-box, border-box;
 }
@@ -90,7 +89,11 @@ li:after {
 	from{transform:rotate(0deg)}
 	to{transform:rotate(360deg)}
 }
-li:before {
+li.loading::after {
+    animation: spin 1s linear infinite;
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(164, 222, 2,1), rgba(76, 154, 42,1));
+}
+li::before {
     font-size:126px;
     opacity:0.2;
     position:absolute;
@@ -102,25 +105,43 @@ li:before {
 li p span {
     font-weight:bold;
 }
-li.sun:before {
+li.sun::before {
     content: "\2600";
 }
-li.clouds:before {
+li.sun::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(254, 204, 81,1), rgba(250, 134, 7,1));
+}
+li.clouds::before {
     content: "\2601";
 }
-li.rain:before {
+li.clouds::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(148,148,148,1), rgba(128,128,128,1));
+}
+li.rain::before {
     content: "\1F328";
 }
-li.cold:before {
+li.rain::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(192,219,252,1), rgba(142,146,144,1));
+}
+li.cold::before {
     content: "\2744";
 }
-li.wind:before {
+li.cold::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(17,112,237,1), rgba(60,72,124,1));
+}
+li.wind::before {
     content: "\1F32C";
 }
-li.error:before {
+li.wind::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(213,174,253,1), rgba(136,171,229,1));
+}
+li.error::before {
     content: "\2049";
 }
-li.loading:before {
+li.error::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(255,0,0,1), rgba(158,26,26,1));
+}
+li.loading::before {
     content: "\1F4E1";
 }
 
