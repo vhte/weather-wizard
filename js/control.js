@@ -56,8 +56,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     selectElement.addEventListener("change", (event) => {
         while(cities.children.length > 1) cities.removeChild(cities.firstChild);
-        cities.children[0].className = "loading";
-        cities.children[0].textContent = "Loading ..."; // investigate why firstChild doesn't work well
+        cities.children[0].className = "loading"; // investigate why firstChild doesn't work well
+        cities.children[0].innerHTML = "";
 
         // pick selected country
         const country = selectElement.options[selectElement.selectedIndex];
@@ -86,7 +86,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
             })
             .catch((text) => {
                 console.warn(text);
-                cities.children[0].textContent = "There was an error when fetching data from server. Try again!";
+                let error = document.createElement("p");
+                error.textContent = "There was an error when fetching data from server. Try again!";
+                cities.children[0].textContent = "";
+                cities.children[0].appendChild(error);
                 cities.children[0].classList.remove("loading");
                 cities.children[0].classList.add("error");
             });

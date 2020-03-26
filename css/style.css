@@ -25,31 +25,33 @@ h3 {
 }
 hr {
 	width:40%;
-	padding:0px;
 	margin:0 auto;
+	margin: 20px auto 20px auto;
 }
 nav {
     width:20em;
     margin: 0 auto;
 }
 footer {
+    margin-top:30px;
 	text-align: center;
-	font-size: 14px;
+	padding-bottom:20px;
 }
-footer a {
-	display: inline-block;
-	margin-top:50px;
+footer p {
+    font-size:0.75em;
+    color:#888;
+    padding:1px;
 }
-a:link {
-	color:#0f0f0f;
-	text-decoration: none;
+footer a:link {
+    color:#888
+    text-decoration:underline;
 }
-a:visited {
-	color:#0f0f0f;
+footer a:hover {
+    color:#888;
+    text-decoration:none;
 }
-a:hover {
-	color:#0f0f0f;
-	text-decoration: underline;
+footer a:visited {
+    color:#888;
 }
 
 ul {
@@ -72,8 +74,8 @@ li {
 li::after {
     width:200px;
     height:200px;
-    margin-left:-0.15em;
-    margin-top:-0.15em;
+    margin-left:-3px;
+    margin-top:-3px; /* -0.15em */
     content:'';
     background:#ccc;
     position:absolute;
@@ -137,6 +139,13 @@ li.wind::after {
 }
 li.error::before {
     content: "\2049";
+}
+li.error p {
+    margin-top: 45px;
+    margin-left: 0px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
 }
 li.error::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(255,0,0,1), rgba(158,26,26,1));
