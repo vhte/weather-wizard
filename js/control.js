@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
         fetch("cities.json").then((response) => {
             return response.json();
         }).then((json) => {
-            const country_cities = json["countries"][country.value]
+            const country_cities = json["countries"][country.value].sort((a,b) => a[1] < b[1] ? -1 : 1)
             // POST
             get_weather_data(country_cities.map(city => city[0]))
             .then((post_result) => {
