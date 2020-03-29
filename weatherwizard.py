@@ -2,17 +2,18 @@ from openweather import OpenWeatherMap, OpenWeatherException
 
 
 class WeatherWizard:
-    # Independent weather
-    ANIMATION_SUN = 0
-    ANIMATION_CLOUDS = "clouds"
-    ANIMATION_RAIN = 2
-    ANIMATION_SNOW = 4
-
-    # Dependence
-    ANIMATION_COLD = "cold"
-    ANIMATION_HOT = "sun"
-    ANIMATION_WIND = "wind"
-    ANIMATION_THUNDER = 64
+    ANIMATION = {
+        # Independent
+        1: "sun",
+        2: "clouds",
+        4: "rain",
+        8: "snow",
+        # Dependence
+        16: "cold",
+        32: "sun",
+        64: "wind",
+        128: "thunder",
+    }
 
     def __init__(self, city=False):
         self.__ow = OpenWeatherMap()
@@ -20,15 +21,15 @@ class WeatherWizard:
             "cod": 0,
             "city": "",
             "country": "",
-            "temperature": 0.0,
-            "wind": 0.0,
-            "feels_like": 0.0,
-            "animation": self.ANIMATION_SUN,
+            "temperature": 0,
+            "wind": 0,
+            "feels_like": 0,
+            "animation": self.ANIMATION[1],
         }
         self.__last_response = self.__last_response_model
         self.__city = city if city else 0
-        # Temperature and wind precision (user)
-        self.__precision = 2
+        # Temperature and wind precision
+        self.__precision = 0
 
         self.__error = ""
 
@@ -92,25 +93,40 @@ class WeatherWizard:
     def set_city(self, city):
         self.__city = city
 
+    # Assuming response is a valid return from OpenWeather
     def __set_animation(self, response):
-        # Assuming response is a valid return from OpenWeather
-        # TODO reorganize to mix wind/feels_like/rain|snow
         # Bitwise operation
+        bit = 1
 
-        windy = 20.0
-        cold = 0.0
-        hot = 30.0
+        try:
+            if "clouds" in response and response["clouds"]["all"] > 80:  # %
+                bit = bit << 1  # 2
+            if "precipitation" in response:
+                if response["precipitation"]["mode"] == "rain":
+                    bit = bit << 1  # 4
+                elif response["precipitation"]["mode"] == "snow":
+                    bit = bit << 2  # 8
 
-        res = self.ANIMATION_CLOUDS
-        if response["main"]["feels_like"] < cold:
-            res = self.ANIMATION_COLD
-        elif response["main"]["feels_like"] > hot:
-            res = self.ANIMATION_HOT
+            # COLD vs HOT vs WIND
+            if bit == 1:  # Only allowed if sky is clear
+                if response["main"]["feels_like"] <= -20.0:
+                    bit = bit << 4  # 16
+                elif response["main"]["feels_like"] > 30.0:
+                    bit = bit << 5  # 32
+                elif response["wind"]["speed"] > 22.5:
+                    bit = bit << 6
 
-        if response["wind"]["speed"] > windy:
-            res = self.ANIMATION_WIND
+        except KeyError as e:
+            raise KeyError(
+                "Invalid position {} for response. Dict: {}".format(
+                    str(e), str(response)
+                )
+            )
 
-        return res
+        try:
+            return self.ANIMATION[bit]
+        except KeyError as e:
+            raise KeyError("Bit {} was not mapped correctly.".format(bit))
 
     def __reset(self):
         self.__last_response = self.__last_response_model

@@ -145,11 +145,11 @@ li.wind::after {
 }
 li.error::before {
     content: "\2049";
+    margin-left: 34px;
 }
 li.error p {
     margin-top: 45px;
     margin-left: 0px;
-    text-align: center;
     font-weight: bold;
     font-size: 1.4em;
 }
