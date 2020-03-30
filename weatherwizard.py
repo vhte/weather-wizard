@@ -1,10 +1,13 @@
+from datetime import datetime, timezone, timedelta
 from openweather import OpenWeatherMap, OpenWeatherException
 
 
 class WeatherWizard:
     ANIMATION = {
         # Independent
+        0: "moon",
         1: "sun",
+
         2: "clouds",
         4: "rain",
         8: "snow",
@@ -67,7 +70,6 @@ class WeatherWizard:
             # Decide animation
             animation = self.__set_animation(response)
 
-            # TODO find snow/rain
             self.__last_response = {
                 "cod": response["cod"],
                 "city": response["name"],
@@ -82,7 +84,6 @@ class WeatherWizard:
             # Reset error message if any
             self.__error = ""
 
-        # TODO owe and e must not be equal
         except OpenWeatherException as owe:
             self.__reset()
             self.__error = "Error running OpenWeather: " + owe.get_message()
@@ -101,11 +102,12 @@ class WeatherWizard:
         try:
             if "clouds" in response and response["clouds"]["all"] > 80:  # %
                 bit = bit << 1  # 2
-            if "precipitation" in response:
-                if response["precipitation"]["mode"] == "rain":
-                    bit = bit << 1  # 4
-                elif response["precipitation"]["mode"] == "snow":
+            if "weather" in response:
+                events = [event["main"].lower() for event in response["weather"]]
+                if "snow" in events:  # TODO thunderstorm, mist
                     bit = bit << 2  # 8
+                elif "rain" in events:
+                    bit = bit << 1  # 4
 
             # COLD vs HOT vs WIND
             if bit == 1:  # Only allowed if sky is clear
@@ -115,6 +117,16 @@ class WeatherWizard:
                     bit = bit << 5  # 32
                 elif response["wind"]["speed"] > 22.5:
                     bit = bit << 6
+
+            # Hour check
+            if bit == 1:
+                # TODO Refactoring, recheck values
+                time = datetime.now(timezone.utc) + timedelta(seconds=response["timezone"])
+                sunrise = datetime.fromtimestamp(response["sys"]["sunrise"]) + timedelta(seconds=response["timezone"])
+                sunset =  datetime.fromtimestamp(response["sys"]["sunset"]) + timedelta(seconds=response["timezone"])
+
+                if time.time() < sunrise.time() or time.time() > sunset.time():
+                    bit = bit >> 1
 
         except KeyError as e:
             raise KeyError(
@@ -132,7 +144,6 @@ class WeatherWizard:
         self.__last_response = self.__last_response_model
         self.__error = ""
 
-    # TODO validate city
     def __set_city(self, city):
         self.__city = city
 

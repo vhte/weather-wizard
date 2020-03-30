@@ -119,6 +119,12 @@ li.sun::before {
 li.sun::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(254, 204, 81,1), rgba(250, 134, 7,1));
 }
+li.moon::before {
+    content: "\1F319";
+}
+li.moon::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(176,147,163,1), rgba(40,46,84,1));
+}
 li.clouds::before {
     content: "\2601";
 }
@@ -126,9 +132,15 @@ li.clouds::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(148,148,148,1), rgba(128,128,128,1));
 }
 li.rain::before {
-    content: "\1F328";
+    content: "\1F327";
 }
 li.rain::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(192,219,252,1), rgba(142,146,144,1));
+}
+li.snow::before {
+    content: "\1F328";
+}
+li.snow::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(192,219,252,1), rgba(142,146,144,1));
 }
 li.cold::before {
