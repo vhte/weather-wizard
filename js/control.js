@@ -50,18 +50,16 @@ function weather_text(data) {
 
 window.addEventListener('DOMContentLoaded', (event) => {
     const selectElement = document.querySelector("#country");
-    const currentCountry = document.querySelector("#country_label");
-    currentCountry.textContent = selectElement.options[0].textContent;
     const cities = document.querySelector("#cities");
 
     selectElement.addEventListener("change", (event) => {
         while(cities.children.length > 1) cities.removeChild(cities.firstChild);
         cities.children[0].className = "loading"; // investigate why firstChild doesn't work well
         cities.children[0].innerHTML = "";
+        cities.children[0].setAttribute("title", "Loading ...");
 
         // pick selected country
         const country = selectElement.options[selectElement.selectedIndex];
-        currentCountry.textContent = country.textContent;
 
         // get from json
         fetch("cities.json").then((response) => {
@@ -77,6 +75,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 for(let i = 0;i < post_result.length;i++) {
                     let elem = document.createElement("li");
                     elem.classList.add(post_result[i]["animation"]);
+                    elem.setAttribute("title", post_result[i]["city"] + ": " + post_result[i]["description"]);
                     let weather = weather_text(post_result[i]);
                     for(let j = 0;j < weather.length;j++)
                         elem.appendChild(weather[j]);
@@ -92,6 +91,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 cities.children[0].appendChild(error);
                 cities.children[0].classList.remove("loading");
                 cities.children[0].classList.add("error");
+                cities.children[0].setAttribute("title", "Error");
             });
         });
     });

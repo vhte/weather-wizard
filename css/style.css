@@ -12,13 +12,6 @@ h1 {
 	margin:0;
 	padding:10px 40px 0px 40px;
 }
-h2 {
-	font-size:62px;
-	text-align: center;
-	color:#666;
-	font-weight: normal;
-	margin:30px 25px 7px 25px;
-}
 h3 {
     font-size:1.5em;
     font-weight:bold;
@@ -68,10 +61,12 @@ li {
     width: 200px;
     height: 200px;
     background-color: #efefef;
+    box-shadow: 7px 7px 10px 0px rgba(0,0,0,0.25);
     border-radius:100%;
     position:relative;
     margin-right:15px;
     margin-bottom:15px;
+    cursor:help;
 }
 
 li::after {
@@ -148,6 +143,12 @@ li.cold::before {
 }
 li.cold::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(17,112,237,1), rgba(60,72,124,1));
+}
+li.hot::before {
+    content: "\1F525";
+}
+li.hot::after {
+    background-image: linear-gradient(white, white), linear-gradient(to right, rgba(255, 117, 0,1), rgba(215, 53, 2,1));
 }
 li.wind::before {
     content: "\1F32C";

@@ -7,13 +7,12 @@ class WeatherWizard:
         # Independent
         0: "moon",
         1: "sun",
-
         2: "clouds",
         4: "rain",
         8: "snow",
         # Dependence
         16: "cold",
-        32: "sun",
+        32: "hot",
         64: "wind",
         128: "thunder",
     }
@@ -27,6 +26,7 @@ class WeatherWizard:
             "temperature": 0,
             "wind": 0,
             "feels_like": 0,
+            "description": "",
             "animation": self.ANIMATION[1],
         }
         self.__last_response = self.__last_response_model
@@ -78,6 +78,7 @@ class WeatherWizard:
                 "wind": self.__set_precision(response["wind"]["speed"]),
                 "humidity": self.__set_precision(response["main"]["humidity"]),
                 "feels_like": self.__set_precision(response["main"]["feels_like"]),
+                "description": response["weather"][0]["description"].capitalize(),
                 "animation": animation,
             }
 
@@ -117,16 +118,20 @@ class WeatherWizard:
                     bit = bit << 5  # 32
                 elif response["wind"]["speed"] > 22.5:
                     bit = bit << 6
+                else:
+                    # Check for moon replacement
+                    schedule = {
+                        "now": datetime.now(timezone.utc) + timedelta(seconds=response["timezone"]),
+                        "sunrise": datetime.fromtimestamp(response["sys"]["sunrise"]),
+                        "sunset": datetime.fromtimestamp(response["sys"]["sunset"]),
+                    }
+                    schedule = {k: event.time() for k, event in schedule.items()}
 
-            # Hour check
-            if bit == 1:
-                # TODO Refactoring, recheck values
-                time = datetime.now(timezone.utc) + timedelta(seconds=response["timezone"])
-                sunrise = datetime.fromtimestamp(response["sys"]["sunrise"]) + timedelta(seconds=response["timezone"])
-                sunset =  datetime.fromtimestamp(response["sys"]["sunset"]) + timedelta(seconds=response["timezone"])
-
-                if time.time() < sunrise.time() or time.time() > sunset.time():
-                    bit = bit >> 1
+                    if (
+                        schedule["now"] < schedule["sunrise"]
+                        or schedule["now"] > schedule["sunset"]
+                    ):
+                        bit = bit >> 1
 
         except KeyError as e:
             raise KeyError(
