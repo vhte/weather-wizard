@@ -36,7 +36,7 @@ class WeatherWizard:
 
         self.__error = ""
 
-    def weather(self):
+    def weather(self, alerts=False):
         """
         Get weather information about a chosen city
 
@@ -89,6 +89,10 @@ class WeatherWizard:
             self.__reset()
             self.__error = "Error running OpenWeather: " + owe.get_message()
             raise Exception(self.__error)
+
+        # Check if should add alerts
+        if alerts:
+            pass
 
         return self.__last_response
 
