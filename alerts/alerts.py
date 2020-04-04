@@ -13,8 +13,8 @@ class Alerts(AlertsInterface):
 
     CITIES_DATA = "cities.json"
 
-    def __init__(self, id):
-        self._id = id
+    def __init__(self, _id):
+        self._id = int(_id)
         country, agency_city_id = self._get_country()
         self._country = country
         if self._country == "CA":
@@ -22,7 +22,7 @@ class Alerts(AlertsInterface):
         else:
             pass
             # TODO US, BR
-            #raise Exception("Country {} not found in json file.".format(self._country))
+            # raise Exception("Country {} not found in json file.".format(self._country))
 
     def _get_country(self):
         with open(self.CITIES_DATA, "r") as json_file:

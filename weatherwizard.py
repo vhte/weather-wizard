@@ -31,7 +31,7 @@ class WeatherWizard:
             "animation": self.ANIMATION[1],
         }
         self.__last_response = self.__last_response_model
-        self.__city = city if city else 0
+        self.__city = int(city) if city else 0
         # Temperature and wind precision
         self.__precision = 0
 
