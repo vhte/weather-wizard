@@ -1,6 +1,6 @@
 from openweather import OpenWeatherMap
 from weatherwizard import WeatherWizard
-from alerts.ca import CanadaPublicWeather
+from alerts.alerts import Alerts
 
 """
 This file is dummy model to test outputs from OpenWeather and Public Alerts
@@ -14,7 +14,7 @@ result = ow.action("weather", city)
 ww = WeatherWizard(city)
 result = ww.weather()
 
-alert = CanadaPublicWeather(5969423)
+alert = Alerts(5920288)
 print(alert.has_alert())
 print(alert.get_message())
 

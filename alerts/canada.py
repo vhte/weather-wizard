@@ -1,24 +1,16 @@
 import requests
 import untangle
-import json
-
-from alerts import Alerts
 
 """
 Canada Public Weather Alerts
 """
-class CanadaPublicWeather(Alerts):
+class CanadaPublicWeather():
     KEY_VARIABLE = "%ID%"
     XML_FEED_MODEL = "https://weather.gc.ca/rss/warning/{}_e.xml".format(KEY_VARIABLE)
     NO_ALERT_MESSAGE = "no watches"
-    CITIES_DATA = "../cities.json"
 
     def __init__(self, id):
-        super().__init__(id)
-
-        with open(self.CITIES_DATA, "r") as json_file:
-            json_data = json.load(json_file)
-            city_data = 1
+        self._id = id
 
         self._url = self.XML_FEED_MODEL.replace(self.KEY_VARIABLE, self._id)
 
@@ -38,7 +30,3 @@ class CanadaPublicWeather(Alerts):
 
     def get_message(self):
         return self._summary
-
-alert = CanadaPublicWeather(5969423)
-print(alert.has_alert())
-print(alert.get_message())

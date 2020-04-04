@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from openweather import OpenWeatherMap, OpenWeatherException
+from alerts.alerts import Alerts
 
 
 class WeatherWizard:
@@ -36,7 +37,7 @@ class WeatherWizard:
 
         self.__error = ""
 
-    def weather(self, alerts=False):
+    def weather(self, search_alerts=True):
         """
         Get weather information about a chosen city
 
@@ -91,8 +92,10 @@ class WeatherWizard:
             raise Exception(self.__error)
 
         # Check if should add alerts
-        if alerts:
-            pass
+        if search_alerts:
+            alert = Alerts(self.__city)
+            if alert.has_alert():
+                self.__last_response["alert"] = alert.get_message()
 
         return self.__last_response
 

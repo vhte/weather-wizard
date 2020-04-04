@@ -76,6 +76,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     let elem = document.createElement("li");
                     elem.classList.add(post_result[i]["animation"]);
                     elem.setAttribute("title", post_result[i]["city"] + ": " + post_result[i]["description"]);
+
+                    // If there's an alert to display
+                    if(post_result[i]["alert"] != null) {
+                        console.log("AEE: "+ post_result[i]["city"])
+                    }
+
                     let weather = weather_text(post_result[i]);
                     for(let j = 0;j < weather.length;j++)
                         elem.appendChild(weather[j]);
