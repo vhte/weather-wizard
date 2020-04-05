@@ -99,7 +99,7 @@ li.loading::after {
 	to{box-shadow: 1px 1px 0 0px rgba(148,0,0,.8);}
 }
 li.alert::after {
-    animation: weather_alert 1s linear infinite;
+    animation: weather_alert 1s linear infinite; /* requires a lot of CPU. Investigating... */
 }
 li::before {
     font-size:126px;

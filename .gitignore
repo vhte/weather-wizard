@@ -109,3 +109,4 @@ venv.bak/
 # Project private
 api.key
 tests/.pytest_cache
+dummy.py

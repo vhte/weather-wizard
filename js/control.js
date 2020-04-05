@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     elem.setAttribute("title", post_result[i]["city"] + ": " + post_result[i]["description"]);
 
                     // If there's an alert to display
-                    if(post_result[i].indexOf("alert") !== -1) {
+                    if(typeof post_result[i]["alert"] !== "undefined") {
                         console.log("This city has a public alert: " + post_result[i]["city"]);
                         elem.classList.add("alert");
                     }

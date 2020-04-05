@@ -2,6 +2,7 @@ import json
 
 from .interface import AlertsInterface
 from .canada import CanadaPublicWeather
+from .usa import USAPublicWeather
 
 
 class Alerts(AlertsInterface):
@@ -13,15 +14,17 @@ class Alerts(AlertsInterface):
 
     CITIES_DATA = "cities.json"
 
-    def __init__(self, _id):
-        self._id = int(_id)
+    def __init__(self, id_):
+        self._id = int(id_)
         country, agency_city_id = self._get_country()
         self._country = country
         if self._country == "CA":
             self._agency = CanadaPublicWeather(agency_city_id)
+        elif self._country == "US":
+            self._agency = USAPublicWeather(agency_city_id)
         else:
             pass
-            # TODO US, BR
+            # TODO BR
             # raise Exception("Country {} not found in json file.".format(self._country))
 
     def _get_country(self):
