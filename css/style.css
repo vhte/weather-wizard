@@ -94,12 +94,12 @@ li.loading::after {
     background-image: linear-gradient(white, white), linear-gradient(to right, rgba(164, 222, 2,1), rgba(76, 154, 42,1));
 }
 @keyframes weather_alert{
-	from{box-shadow: 1 1px 0 0px rgba(148,0,0);}
-	50%{box-shadow: 0px 0px 10px 7px rgba(195,1,1);}
-	to{box-shadow: 1px 1px 0 0px rgba(148,0,0,.8);}
+	from{filter: drop-shadow(1 1px 0px rgba(148,0,0));} /* Preferable (gpu) over box-shadow */
+	50%{filter: drop-shadow(0px 0px 10px rgba(195,1,1));}
+	to{filter: drop-shadow(1px 1px 0px rgba(148,0,0,.8));}
 }
 li.alert::after {
-    animation: weather_alert 1s linear infinite; /* requires a lot of CPU. Investigating... */
+    animation: weather_alert 1s linear infinite;
 }
 li::before {
     font-size:126px;

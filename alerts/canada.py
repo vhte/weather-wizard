@@ -33,5 +33,4 @@ class CanadaPublicWeather(AlertsInterface):
         return True
 
     def get_message(self):
-        if self.has_alert():
-            return self._summary
+        return self._summary

@@ -11,7 +11,7 @@ USA Public Weather Alerts
 class USAPublicWeather(AlertsInterface):
     KEY_VARIABLE = "lat=%LAT%&lon=%LON%"
     XML_FEED_MODEL = (
-        "https://forecast.weather.gov/MapClick.php?lat=%LAT%&lon=%LON%&FcstType=dwml"
+        "https://forecast.weather.gov/MapClick.php?{}&FcstType=dwml".format(KEY_VARIABLE)
     )
     NO_ALERT_MESSAGE = ""
 
@@ -61,5 +61,4 @@ class USAPublicWeather(AlertsInterface):
         return True
 
     def get_message(self):
-        if self.has_alert():
-            return self._summary
+        return self._summary
