@@ -35,7 +35,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         result = []
         for city in cities_ids:
             ww.set_city(city)
-            result.append(ww.weather())
+            result.append(ww.weather(search_alerts=True))
         # print(result)
 
         self.wfile.write(bytes(json.dumps(result), self.__encoding))

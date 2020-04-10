@@ -23,9 +23,7 @@ class Alerts(AlertsInterface):
         elif self._country == "US":
             self._agency = USAPublicWeather(agency_city_id)
         else:
-            pass
-            # TODO BR
-            # raise Exception("Country {} not found in json file.".format(self._country))
+            raise NotImplementedError("Country {} doesn't have public weather agency.".format(self._country))
 
     def _get_country(self):
         with open(self.CITIES_DATA, "r") as json_file:

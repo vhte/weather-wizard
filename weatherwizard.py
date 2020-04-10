@@ -37,7 +37,7 @@ class WeatherWizard:
 
         self.__error = ""
 
-    def weather(self, search_alerts=True):
+    def weather(self, search_alerts=False):
         """
         Get weather information about a chosen city
 
@@ -89,13 +89,17 @@ class WeatherWizard:
         except OpenWeatherException as owe:
             self.__reset()
             self.__error = "Error running OpenWeather: " + owe.get_message()
+            # TODO do not terminate
             raise Exception(self.__error)
 
         # Check if should add alerts
         if search_alerts:
-            alert = Alerts(self.__city)
-            if alert.has_alert():
-                self.__last_response["alert"] = alert.get_message()
+            try:
+                alert = Alerts(self.__city)
+                if alert.has_alert():
+                    self.__last_response["alert"] = alert.get_message()
+            except NotImplementedError as e:
+                print("Couldn't get alert for city {}. Reason: {}".format(self.__city, str(e)))
 
         return self.__last_response
 
