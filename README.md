@@ -19,9 +19,20 @@ The file ```cities.json``` holds all the data for search. This file has the foll
 
 Weather is computed from OpenWeather API.
 
-### Usage
-First of all, an API key from [OpenWeather](https://openweathermap.org/appid) is required and it should be saved as ```api.key``` in the root folder.
+### Installation
+An API key from [OpenWeather](https://openweathermap.org/appid) is required and it should be saved as ```api.key``` in the root folder.
 
+Create an virtual environment:
+```
+virtualenv .venv
+```
+
+Run the `setup.py` file and project will be ready to use:
+```
+python setup.py develop
+```
+
+### Usage
 Weather resume is called with the following example:
 ```python
 from weatherwizard import WeatherWizard

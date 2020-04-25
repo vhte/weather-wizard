@@ -1,3 +1,5 @@
+POST_URL = "http://localhost:8000/"
+
 function get_weather_data(cities_ids) {
     return new Promise((resolve, reject) => {
         const XHR = new XMLHttpRequest();
@@ -16,7 +18,7 @@ function get_weather_data(cities_ids) {
             reject("Something went wrong when trying to connect to the server.");
         };
 
-        XHR.open("POST", "http://localhost:8000/");
+        XHR.open("POST", POST_URL);
         XHR.setRequestHeader("Content-type", "application/json");
         XHR.send(JSON.stringify(cities_ids));
 
@@ -54,7 +56,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     selectElement.addEventListener("change", (event) => {
         while(cities.children.length > 1) cities.removeChild(cities.firstChild);
-        cities.children[0].className = "loading"; // investigate why firstChild doesn't work well
+        cities.children[0].className = "loading"; // @TODO investigate why firstChild doesn't work well
         cities.children[0].innerHTML = "";
         cities.children[0].setAttribute("title", "Loading ...");
 

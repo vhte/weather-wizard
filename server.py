@@ -29,17 +29,14 @@ class Handler(http.server.BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         # str bytes to list
         cities_ids = post_data.decode("utf-8").strip("[]").split(",")
-        # post_data = parse.parse_qs(parse.unquote(post_data.decode(self.__encoding)))
 
         ww = WeatherWizard()
         result = []
         for city in cities_ids:
             ww.set_city(city)
             result.append(ww.weather(search_alerts=True))
-        # print(result)
 
         self.wfile.write(bytes(json.dumps(result), self.__encoding))
-        # r = requests.post("http://localhost:8000/", data={'foo': 'bar', 'weather': 'wizard'}) r.text
 
 
 httpd = http.server.HTTPServer(("localhost", 8000), Handler)
