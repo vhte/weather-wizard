@@ -2,6 +2,8 @@
 This project is a Single Page Application which shows the overall weather over a given country at current time.
 It also captures public weather alerts from government data.
 
+A live demo is available at [https://victortorr.es/weather-wizard/](https://victortorr.es/weather-wizard/).
+
 ## Data
 This project uses data from [OpenWeather](https://openweathermap.org/) and searches for public alerts from the following entities:
 - [Environment Canada (Canada)](https://weather.gc.ca/)

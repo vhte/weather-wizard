@@ -95,6 +95,7 @@ class WeatherWizard:
         # Check if should add alerts
         if search_alerts:
             try:
+                # TODO Change try/catch by empty string when none
                 alert = Alerts(self.__city)
                 if alert.has_alert():
                     self.__last_response["alert"] = alert.get_message()

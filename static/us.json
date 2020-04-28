@@ -1,0 +1,161 @@
+[
+    {
+        "cod":200,
+        "city":"Austin",
+        "country":"US",
+        "temperature":26.0,
+        "wind":17.0,
+        "humidity":44,
+        "feels_like":23.0,
+        "description":"Broken clouds",
+        "animation":"sun",
+        "alert":"http://forecast.weather.gov/showsigwx.php?warnzone=TXZ192&warncounty=TXC453&firewxzone=TXZ192&local_place1=Austin+TX&product1=Hazardous+Weather+Outlook"
+    },
+    {
+        "cod":200,
+        "city":"Chicago",
+        "country":"US",
+        "temperature":14.0,
+        "wind":9.0,
+        "humidity":76,
+        "feels_like":13.0,
+        "description":"Light rain",
+        "animation":"rain",
+        "alert":"http://forecast.weather.gov/showsigwx.php?warnzone=ILZ104&warncounty=ILC031&firewxzone=ILZ014&local_place1=2+Miles+ENE+Chicago+IL&product1=Hazardous+Weather+Outlook"
+    },
+    {
+        "cod":200,
+        "city":"Honolulu",
+        "country":"US",
+        "temperature":27.0,
+        "wind":24.0,
+        "humidity":54,
+        "feels_like":24.0,
+        "description":"Scattered clouds",
+        "animation":"wind"
+    },
+    {
+        "cod":200,
+        "city":"Juneau",
+        "country":"US",
+        "temperature":7.0,
+        "wind":35.0,
+        "humidity":81,
+        "feels_like":-1.0,
+        "description":"Moderate rain",
+        "animation":"rain"
+    },
+    {
+        "cod":200,
+        "city":"Kansas City",
+        "country":"US",
+        "temperature":20.0,
+        "wind":24.0,
+        "humidity":43,
+        "feels_like":15.0,
+        "description":"Scattered clouds",
+        "animation":"wind",
+        "alert":"http://forecast.weather.gov/showsigwx.php?warnzone=MOZ037&warncounty=MOC095&firewxzone=MOZ037&local_place1=Kansas+City+MO&product1=Hazardous+Weather+Outlook"
+    },
+    {
+        "cod":200,
+        "city":"Los Angeles",
+        "country":"US",
+        "temperature":25.0,
+        "wind":13.0,
+        "humidity":42,
+        "feels_like":23.0,
+        "description":"Clear sky",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"Miami",
+        "country":"US",
+        "temperature":24.0,
+        "wind":9.0,
+        "humidity":60,
+        "feels_like":24.0,
+        "description":"Clear sky",
+        "animation":"moon",
+        "alert":"http://forecast.weather.gov/showsigwx.php?warnzone=FLZ173&warncounty=FLC086&firewxzone=FLZ173&local_place1=Miami+FL&product1=Hazardous+Weather+Outlook"
+    },
+    {
+        "cod":200,
+        "city":"Minneapolis",
+        "country":"US",
+        "temperature":20.0,
+        "wind":11.0,
+        "humidity":25,
+        "feels_like":16.0,
+        "description":"Scattered clouds",
+        "animation":"sun",
+        "alert":"http://forecast.weather.gov/showsigwx.php?warnzone=MNZ060&warncounty=MNC053&firewxzone=MNZ060&local_place1=Minneapolis+MN&product1=Hazardous+Weather+Outlook"
+    },
+    {
+        "cod":200,
+        "city":"Nashville",
+        "country":"US",
+        "temperature":18.0,
+        "wind":9.0,
+        "humidity":37,
+        "feels_like":14.0,
+        "description":"Broken clouds",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"New Orleans",
+        "country":"US",
+        "temperature":21.0,
+        "wind":5.0,
+        "humidity":40,
+        "feels_like":20.0,
+        "description":"Clear sky",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"New York",
+        "country":"US",
+        "temperature":8.0,
+        "wind":23.0,
+        "humidity":65,
+        "feels_like":1.0,
+        "description":"Few clouds",
+        "animation":"wind"
+    },
+    {
+        "cod":200,
+        "city":"San Francisco",
+        "country":"US",
+        "temperature":19.0,
+        "wind":41.0,
+        "humidity":59,
+        "feels_like":11.0,
+        "description":"Broken clouds",
+        "animation":"wind"
+    },
+    {
+        "cod":200,
+        "city":"Seattle",
+        "country":"US",
+        "temperature":15.0,
+        "wind":22.0,
+        "humidity":55,
+        "feels_like":10.0,
+        "description":"Scattered clouds",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"Washington D.C.",
+        "country":"US",
+        "temperature":10.0,
+        "wind":9.0,
+        "humidity":40,
+        "feels_like":6.0,
+        "description":"Clear sky",
+        "animation":"moon"
+    }
+]

@@ -1,0 +1,156 @@
+[
+    {
+        "cod":200,
+        "city":"Charlottetown",
+        "country":"CA",
+        "temperature":2.0,
+        "wind":33.0,
+        "humidity":64,
+        "feels_like":-7.0,
+        "description":"Broken clouds",
+        "animation":"wind"
+    },
+    {
+        "cod":200,
+        "city":"Edmonton",
+        "country":"CA",
+        "temperature":12.0,
+        "wind":4.0,
+        "humidity":53,
+        "feels_like":10.0,
+        "description":"Few clouds",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"Fredericton",
+        "country":"CA",
+        "temperature":4.0,
+        "wind":30.0,
+        "humidity":41,
+        "feels_like":-5.0,
+        "description":"Overcast clouds",
+        "animation":"clouds"
+    },
+    {
+        "cod":200,
+        "city":"Halifax",
+        "country":"CA",
+        "temperature":4.0,
+        "wind":14.0,
+        "humidity":68,
+        "feels_like":-1.0,
+        "description":"Light rain",
+        "animation":"rain"
+    },
+    {
+        "cod":200,
+        "city":"Iqaluit",
+        "country":"CA",
+        "temperature":-8.0,
+        "wind":8.0,
+        "humidity":78,
+        "feels_like":-13.0,
+        "description":"Light snow",
+        "animation":"snow"
+    },
+    {
+        "cod":200,
+        "city":"Ottawa",
+        "country":"CA",
+        "temperature":8.0,
+        "wind":11.0,
+        "humidity":39,
+        "feels_like":4.0,
+        "description":"Broken clouds",
+        "animation":"moon"
+    },
+    {
+        "cod":200,
+        "city":"Qu\u00e9bec",
+        "country":"CA",
+        "temperature":4.0,
+        "wind":26.0,
+        "humidity":48,
+        "feels_like":-4.0,
+        "description":"Light rain",
+        "animation":"rain"
+    },
+    {
+        "cod":200,
+        "city":"Regina",
+        "country":"CA",
+        "temperature":19.0,
+        "wind":5.0,
+        "humidity":22,
+        "feels_like":15.0,
+        "description":"Overcast clouds",
+        "animation":"clouds"
+    },
+    {
+        "cod":200,
+        "city":"St. John's",
+        "country":"CA",
+        "temperature":1.0,
+        "wind":9.0,
+        "humidity":59,
+        "feels_like":-4.0,
+        "description":"Overcast clouds",
+        "animation":"clouds"
+    },
+    {
+        "cod":200,
+        "city":"Toronto",
+        "country":"CA",
+        "temperature":10.0,
+        "wind":17.0,
+        "humidity":70,
+        "feels_like":5.0,
+        "description":"Clear sky",
+        "animation":"moon"
+    },
+    {
+        "cod":200,
+        "city":"Victoria",
+        "country":"CA",
+        "temperature":13.0,
+        "wind":28.0,
+        "humidity":66,
+        "feels_like":7.0,
+        "description":"Broken clouds",
+        "animation":"wind"
+    },
+    {
+        "cod":200,
+        "city":"Whitehorse",
+        "country":"CA",
+        "temperature":11.0,
+        "wind":26.0,
+        "humidity":29,
+        "feels_like":3.0,
+        "description":"Shower rain",
+        "animation":"clouds"
+    },
+    {
+        "cod":200,
+        "city":"Winnipeg",
+        "country":"CA",
+        "temperature":14.0,
+        "wind":9.0,
+        "humidity":50,
+        "feels_like":10.0,
+        "description":"Broken clouds",
+        "animation":"sun"
+    },
+    {
+        "cod":200,
+        "city":"Yellowknife",
+        "country":"CA",
+        "temperature":2.0,
+        "wind":26.0,
+        "humidity":59,
+        "feels_like":-5.0,
+        "description":"Broken clouds",
+        "animation":"wind"
+    }
+]

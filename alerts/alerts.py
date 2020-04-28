@@ -1,4 +1,6 @@
+import os
 import json
+from definitions import ROOT_DIR
 
 from .interface import AlertsInterface
 from .canada import CanadaPublicWeather
@@ -12,7 +14,7 @@ class Alerts(AlertsInterface):
     Alerts are controlled by a public agency in each country.
     """
 
-    CITIES_DATA = "cities.json"
+    CITIES_DATA = os.path.join(ROOT_DIR, "cities.json")
 
     def __init__(self, id_):
         self._id = int(id_)
