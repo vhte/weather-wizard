@@ -35,11 +35,19 @@ python setup.py develop
 ```
 
 ### Usage
-Weather resume is called with the following example:
+To get the weather of a specific city, an OpenWeather ID is required. Those IDs can be found at a [bulk samples page](http://bulk.openweathermap.org/sample/) or by using ```search_city()``` method:
+```python
+from openweather import OpenWeatherMap
+
+#  Line below will show all existent Ottawas IDs (three in USA and one in Canada)
+print([id_ for id_, country, coordinates in OpenWeatherMap.search_city("Ottawa")])
+```
+
+After picking an ID, the weather resume method can be called like the following example:
 ```python
 from weatherwizard import WeatherWizard
 
-ww = WeatherWizard(6167865)  # Toronto
+ww = WeatherWizard(6094817)  # Ottawa(CANADA)
 print(ww.weather())
 ```
 Alerts can be added to the weather method response by adding the ```search_alerts``` flag:
