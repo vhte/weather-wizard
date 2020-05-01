@@ -1,5 +1,8 @@
 import os
 import requests
+import gzip
+from definitions import ROOT_DIR
+from ast import literal_eval
 
 
 class OpenWeatherMap:
@@ -10,6 +13,7 @@ class OpenWeatherMap:
         "forecast": "forecast"
         # TODO temp map
     }
+    ALL_CITIES_FILE = os.path.join(ROOT_DIR, "static", "history.city.list.json.gz")
 
     def __init__(self):
         self.__file = os.path.join(os.path.dirname(__file__), self.API_KEY)
@@ -57,6 +61,23 @@ class OpenWeatherMap:
             )
 
         return self.__request(method, city)
+
+    @staticmethod
+    def search_city(city_name):
+        with gzip.open(OpenWeatherMap.ALL_CITIES_FILE) as city_file:
+            all_cities_bytes = city_file.read()
+        all_cities_decoded = all_cities_bytes.decode("UTF-8")
+        all_cities = literal_eval(all_cities_decoded)
+        city_name = city_name.upper()
+
+        matches = []
+        for match in all_cities:
+            if match["city"]["findname"] == city_name:
+                id_ = match["id"]
+                if isinstance(id_, dict):
+                    id_ = int(match["id"]["$numberLong"])
+                matches.append([id_, match["city"]["country"], match["city"]["coord"]])
+        return matches
 
     def get_last_call(self):
         return self.__last_call
