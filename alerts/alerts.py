@@ -2,9 +2,9 @@ import os
 import json
 from definitions import ROOT_DIR
 
-from .interface import AlertsInterface
-from .canada import CanadaPublicWeather
-from .usa import USAPublicWeather
+from alerts.interface import AlertsInterface
+from alerts.canada import CanadaPublicWeather
+from alerts.usa import USAPublicWeather
 
 
 class Alerts(AlertsInterface):

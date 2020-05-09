@@ -1,8 +1,17 @@
 import pytest
 from alerts.alerts import Alerts
 
-CITY = 6094817  # Ottawa
+CANADA = 6094817  # Ottawa
+USA = 4140963  # Washington DC
 
 
-def test_can_instantiate():
-    alert = Alerts(CITY)
+def test_canada():
+    alert = Alerts(CANADA)
+    assert isinstance(alert.has_alert(), bool)
+    assert isinstance(alert.get_message(), str)
+
+
+def test_usa():
+    alert = Alerts(USA)
+    assert isinstance(alert.has_alert(), bool)
+    assert isinstance(alert.get_message(), str)

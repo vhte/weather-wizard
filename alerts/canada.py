@@ -1,7 +1,7 @@
 import requests
 import untangle
 
-from .interface import AlertsInterface
+from alerts.interface import AlertsInterface
 
 """
 Canada Public Weather Alerts
