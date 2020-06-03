@@ -40,12 +40,9 @@ class USAPublicWeather(AlertsInterface):
                             for hazard in hazards
                         ]
                     )
-                    self._summary = ", ".join(
-                        [
-                            hazard.hazard_conditions.hazard.hazardTextURL.cdata
-                            for hazard in hazards
-                        ]
-                    )
+                    # TODO decide what to do if two URLs are given
+                    self._summary = [hazard.hazard_conditions.hazard.hazardTextURL.cdata for hazard in hazards]
+                    self._summary = self._summary[0]
                 else:
                     self._title = parse.dwml.data[0].parameters.hazards.hazard_conditions.hazard["headline"]
                     self._summary = parse.dwml.data[0].parameters.hazards.hazard_conditions.hazard.hazardTextURL.cdata

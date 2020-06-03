@@ -83,8 +83,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(typeof post_result[i]["alert"] !== "undefined") {
                         console.log("This city has a public alert: " + post_result[i]["city"]);
                         elem.classList.add("alert");
-                        // @TODO USA must be with confirm() and send to .gov website
-                        elem.addEventListener("click", function(){ alert(post_result[i]["alert"]); }, false);
+
+                        // Differ links and text
+                        if(post_result[i]["alert"].startsWith("http"))
+                            elem.addEventListener("click", function(){
+                                if(confirm("This alert details will open in a new window."))
+                                    window.open(post_result[i]["alert"], "_blank");
+                            }, false);
+                        else
+                            elem.addEventListener("click", function(){ alert(post_result[i]["alert"]); }, false);
                     }
 
                     let weather = weather_text(post_result[i]);
