@@ -83,6 +83,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     if(typeof post_result[i]["alert"] !== "undefined") {
                         console.log("This city has a public alert: " + post_result[i]["city"]);
                         elem.classList.add("alert");
+                        // @TODO USA must be with confirm() and send to .gov website
+                        elem.addEventListener("click", function(){ alert(post_result[i]["alert"]); }, false);
                     }
 
                     let weather = weather_text(post_result[i]);

@@ -33,7 +33,7 @@ class USAPublicWeather(AlertsInterface):
             parse = untangle.parse(response.text)
             if hasattr(parse.dwml.data[0].parameters, "hazards"):
                 hazards = parse.dwml.data[0].parameters.hazards
-                if type(hazards) == list:
+                if isinstance(hazards, list):
                     self._title = ", ".join(
                         [
                             hazard.hazard_conditions.hazard["headline"]

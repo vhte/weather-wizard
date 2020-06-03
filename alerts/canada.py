@@ -21,8 +21,12 @@ class CanadaPublicWeather(AlertsInterface):
         response = requests.get(self._url)
         if response:
             parse = untangle.parse(response.text)
-            self._title = parse.feed.entry.title.cdata
-            self._summary = parse.feed.entry.summary.cdata
+            if isinstance(parse.feed.entry, list):
+                self._title = " | ".join([entry.title.cdata for entry in parse.feed.entry])
+                self._summary = " | ".join([entry.summary.cdata for entry in parse.feed.entry])
+            else:
+                self._title = parse.feed.entry.title.cdata
+                self._summary = parse.feed.entry.summary.cdata
         else:
             raise Exception("Couldn't retrieve alert data for {}.".format(self._id))
 
