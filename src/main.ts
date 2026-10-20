@@ -2,7 +2,17 @@ import "./style.css";
 import { fetchAlerts } from "./alerts";
 import { COUNTRIES, findCountry, type City } from "./cities";
 import { fetchCurrent, searchPlaces } from "./providers/openMeteo";
-import { activeAlerts, bubble, details, escapeHtml, skeletons, toEntry, type Entry, type Units } from "./ui/render";
+import {
+  activeAlerts,
+  bubble,
+  bubbleButton,
+  details,
+  escapeHtml,
+  skeletons,
+  toEntry,
+  type Entry,
+  type Units,
+} from "./ui/render";
 
 /** What the grid shows; mirrored in the URL hash (#ca, #search=lima). */
 type View = { kind: "country"; code: string } | { kind: "search"; query: string };
@@ -56,21 +66,41 @@ function parseHash(): View {
 const viewHash = (view: View): string =>
   view.kind === "country" ? `#${view.code.toLowerCase()}` : `#search=${encodeURIComponent(view.query)}`;
 
-function renderTabs(): void {
+tabs.innerHTML = COUNTRIES.map(
+  (country) => `<a href="#${country.code.toLowerCase()}" class="tab" data-code="${country.code}">${country.name}</a>`,
+).join("");
+
+function markCurrentTab(): void {
   const current = state.view.kind === "country" ? state.view.code : null;
-  tabs.innerHTML = COUNTRIES.map(
-    (country) =>
-      `<a href="#${country.code.toLowerCase()}" class="tab" ${country.code === current ? 'aria-current="page"' : ""}>${country.name}</a>`,
-  ).join("");
+  tabs.querySelectorAll<HTMLAnchorElement>(".tab").forEach((tab) => {
+    if (tab.dataset.code === current) tab.setAttribute("aria-current", "page");
+    else tab.removeAttribute("aria-current");
+  });
 }
 
-function renderGrid(): void {
-  grid.innerHTML = state.entries.map((entry, i) => bubble(entry, i, state.units)).join("");
+/** Rebuilds every cell. `fresh` fades the bubbles in over the skeletons they replace. */
+function renderGrid(fresh = false): void {
+  grid.innerHTML = state.entries.map((entry, i) => bubble(entry, i, state.units, fresh)).join("");
   grid.setAttribute("aria-busy", "false");
   renderSummary();
-  if (dialog.open && state.entries[state.openIndex]) {
-    dialogBody.innerHTML = details(state.entries[state.openIndex]!, state.units);
-  }
+  refreshDialog();
+}
+
+/** Swaps in only the bubbles that gained alerts, so the rest of the grid stays still. */
+function patchAlerts(): void {
+  state.entries.forEach((entry, i) => {
+    if (activeAlerts(entry).length === 0) return;
+    const template = document.createElement("template");
+    template.innerHTML = bubbleButton(entry, i, state.units).trim();
+    grid.querySelector(`.bubble[data-index="${i}"]`)?.replaceWith(template.content);
+  });
+  renderSummary();
+  refreshDialog();
+}
+
+function refreshDialog(): void {
+  const entry = state.entries[state.openIndex];
+  if (dialog.open && entry) dialogBody.innerHTML = details(entry, state.units);
 }
 
 function renderSummary(): void {
@@ -115,7 +145,7 @@ async function load(): Promise<void> {
   const { signal } = controller;
   const view = state.view;
 
-  renderTabs();
+  markCurrentTab();
   searchInput.value = view.kind === "search" ? view.query : "";
   grid.setAttribute("aria-busy", "true");
   grid.innerHTML = skeletons(view.kind === "country" ? (findCountry(view.code)?.cities.length ?? 8) : 4);
@@ -135,12 +165,12 @@ async function load(): Promise<void> {
     state.entries = cities.map((city, i) => toEntry(city, observations[i]!));
     state.lastLoad = Date.now();
     updated.textContent = `Updated ${new Date().toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}`;
-    renderGrid();
+    renderGrid(true);
 
     const alerts = await alertsPromise;
     if (signal.aborted) return;
     state.entries = state.entries.map((entry, i) => ({ ...entry, alerts: alerts[i] ?? "unavailable" }));
-    renderGrid();
+    patchAlerts();
   } catch (error) {
     if (signal.aborted) return;
     console.error(error);

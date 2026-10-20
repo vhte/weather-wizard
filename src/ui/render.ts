@@ -39,7 +39,12 @@ function alertBadge(entry: Entry): string {
   return `<span class="badge badge-${alerts[0]!.severity}" title="${label}">${WARNING_ICON}<span>${alerts.length}</span></span>`;
 }
 
-export function bubble(entry: Entry, index: number, units: Units): string {
+/** A city's bubble inside its grid cell. `fresh` fades it in when it replaces a skeleton. */
+export const bubble = (entry: Entry, index: number, units: Units, fresh = false): string =>
+  `<li${fresh ? ' class="fresh"' : ""}>${bubbleButton(entry, index, units)}</li>`;
+
+/** Just the bubble, so a cell can be updated in place without replaying its entrance. */
+export function bubbleButton(entry: Entry, index: number, units: Units): string {
   const { city, observation: obs, condition } = entry;
   const alerts = activeAlerts(entry);
   const description = describe(obs.weatherCode);
@@ -50,26 +55,27 @@ export function bubble(entry: Entry, index: number, units: Units): string {
     .filter(Boolean)
     .join(". ");
 
-  return `
-    <li style="--i:${index}">
-      <button type="button" class="bubble ${alerts.length ? "has-alert" : ""}" data-condition="${condition}"
-        data-index="${index}" aria-label="${escapeHtml(label)}">
-        ${alertBadge(entry)}
-        ${conditionIcon(condition)}
-        <span class="city">${escapeHtml(city.name)}</span>
-        ${city.region ? `<span class="region">${escapeHtml(city.region)}</span>` : ""}
-        <span class="temp">${formatTemperature(obs.temperature, units)}</span>
-        <span class="desc">${escapeHtml(description)}</span>
-        <span class="meta">
-          <span title="Feels like">≈ ${formatTemperature(obs.feelsLike, units)}</span>
-          <span title="Wind">${formatWind(obs.windSpeed, units)}</span>
-        </span>
-      </button>
-    </li>`;
+  return `<button type="button" class="bubble ${alerts.length ? "has-alert" : ""}" data-condition="${condition}"
+      data-index="${index}" aria-label="${escapeHtml(label)}">
+      ${alertBadge(entry)}
+      ${conditionIcon(condition)}
+      <span class="city">${escapeHtml(city.name)}</span>
+      ${city.region ? `<span class="region">${escapeHtml(city.region)}</span>` : ""}
+      <span class="temp">${formatTemperature(obs.temperature, units)}</span>
+      <span class="desc">${escapeHtml(description)}</span>
+      <span class="meta">
+        <span title="Feels like">≈ ${formatTemperature(obs.feelsLike, units)}</span>
+        <span title="Wind">${formatWind(obs.windSpeed, units)}</span>
+      </span>
+    </button>`;
 }
 
+/** Loading placeholders; the only cells with the staggered entrance. */
 export const skeletons = (count: number): string =>
-  Array.from({ length: count }, (_, i) => `<li style="--i:${i}"><div class="bubble skeleton" aria-hidden="true"></div></li>`).join("");
+  Array.from(
+    { length: count },
+    (_, i) => `<li class="enter" style="--i:${i}"><div class="bubble skeleton" aria-hidden="true"></div></li>`,
+  ).join("");
 
 function alertStatus(entry: Entry): string {
   const { alerts } = entry;

@@ -283,8 +283,19 @@ main {
   justify-items: center;
 }
 
-.grid > li {
+/* Skeletons rise in once per load; real bubbles then fade in over them in place. */
+.grid > li.enter {
   animation: rise 0.5s calc(var(--i) * 35ms) both cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.grid > li.fresh {
+  animation: fade-in 0.35s ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .grid > li.message {
@@ -453,6 +464,13 @@ button.bubble:hover {
   font-size: 0.75rem;
   font-weight: 800;
   box-shadow: 0 4px 10px rgb(224 49 43 / 0.45);
+  animation: pop 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
 }
 
 .badge svg {
