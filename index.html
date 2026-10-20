@@ -1,36 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Live weather and public weather alerts for the capitals of Canada, the USA and Brazil." />
+    <meta name="color-scheme" content="light dark" />
     <title>Weather Wizard</title>
-    <script src="js/control.js"></script>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-    <header>
-        <h1>Weather Wizard</h1>
-        <nav title="Select a country">
-            <select id="country">
-                <option value="CA">Canada</option>
-                <option value="US">USA</option>
-                <option value="BR">Brazil</option>
-            </select>
-            <input type="text" name="city" title="Find an specific city weather" placeholder="Find an specific city ...">
-        </nav>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <script>
+      // Apply the saved theme before first paint to avoid a flash.
+      try {
+        const theme = localStorage.getItem("ww-theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <script type="module" src="./src/main.ts"></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="brand">
+        <img src="./favicon.svg" alt="" width="44" height="44" />
+        <div>
+          <h1>Weather Wizard</h1>
+          <p class="tagline">Live weather and public alerts, city by city.</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <nav class="tabs" aria-label="Country" id="tabs"></nav>
+
+        <form class="search" id="search" role="search">
+          <label class="visually-hidden" for="search-input">Find any city</label>
+          <input id="search-input" name="q" type="search" placeholder="Find any city…" autocomplete="off" enterkeyhint="search" />
+          <button type="submit" aria-label="Search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+          </button>
+        </form>
+
+        <div class="toggles">
+          <button type="button" class="chip" id="units" aria-label="Switch units">°C</button>
+          <button type="button" class="chip" id="theme" aria-label="Switch theme">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" /></svg>
+          </button>
+        </div>
+      </div>
     </header>
 
     <main>
-        <hr>
-        <ul id="cities">
-            <li></li>
-        </ul>
+      <div class="status" id="status" aria-live="polite">
+        <p id="summary"></p>
+        <button type="button" class="chip" id="refresh">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5" /></svg>
+          <span id="updated">Refresh</span>
+        </button>
+      </div>
+      <ul class="grid" id="grid" aria-busy="true"></ul>
     </main>
 
+    <dialog id="details" aria-labelledby="details-title">
+      <button type="button" class="close" id="close" aria-label="Close">×</button>
+      <div id="details-body"></div>
+    </dialog>
+
     <footer>
-        <p>by <a href="https://github.com/vhte/weather-wizard" target="_blank" title="This is an open source project!">Victor</a>, forged on my couch.</p>
-        <p>under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GNU General Public License v3.0</a></p>
+      <p>
+        Weather by <a href="https://open-meteo.com/">Open-Meteo</a> · Alerts by
+        <a href="https://weather.gc.ca/">Environment Canada</a> and
+        <a href="https://www.weather.gov/">National Weather Service</a>
+      </p>
+      <p>
+        Open source on <a href="https://github.com/vhte/weather-wizard">GitHub</a> under
+        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0</a>. First forged on a couch in 2019.
+      </p>
     </footer>
-</body>
+  </body>
 </html>

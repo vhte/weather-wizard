@@ -1,0 +1,25 @@
+{
+  "name": "weather-wizard",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Live weather and government alerts for the capitals of Canada, the USA and Brazil, as a static single-page app.",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "repository": "github:vhte/weather-wizard",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}

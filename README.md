@@ -1,79 +1,58 @@
 # Weather Wizard
-This project is a Single Page Application which shows the overall weather over a given country at current time.
-It also captures public weather alerts from government data.
 
-A live demo is available at [https://victortorr.es/weather-wizard/](https://victortorr.es/weather-wizard/).
+Live weather and public weather alerts for the capitals of **Canada**, the **USA** and **Brazil**, drawn as a grid of little skies. Each city gets a bubble whose colors and animated icon reflect what is happening outside right now: sun, moon, clouds, rain, snow, thunder, wind, bitter cold or heat. When a government agency has an active warning for a city, its bubble pulses red.
 
-## Data
-This project uses data from [OpenWeather](https://openweathermap.org/) and searches for public alerts from the following entities:
-- [Environment Canada (Canada)](https://weather.gc.ca/)
-- [National Weather Service (USA)](https://www.weather.gov/)
+**Live demo:** https://vhte.github.io/weather-wizard/
 
+## What it does
 
-The file ```cities.json``` holds all the data for search. This file has the following format:
+- **Country view:** pick Canada, USA or Brazil to see every capital at a glance.
+- **Search any city:** type a name to see every place in the world that matches it.
+- **Public alerts:** click a city to see its readings and any active watches, warnings or advisories, with the agency's full text.
+- **Your preferences:** switch between °C and °F and between light and dark themes. Both choices are remembered.
+- **Shareable links:** every view has its own URL, for example `#us` or `#search=Lisbon`.
+- **Always fresh:** data refreshes every 15 minutes while the page is open.
 
-| OpenWeather ID | City Name | [Lat, Long] | Public Agency ID (for alerts) |
-| --- | --- | --- | --- |
-| 6167865 | "Toronto" | [43.7,-79.42] | "on-143" |
+## Where the data comes from
 
+Everything is fetched by your browser from free, public, keyless APIs. There is no server and no API key.
 
-## Functionalities
+| Data | Source |
+| --- | --- |
+| Current weather and city search | [Open-Meteo](https://open-meteo.com/) |
+| Alerts in Canada | [Environment and Climate Change Canada](https://weather.gc.ca/) (MSC GeoMet) |
+| Alerts in the USA | [National Weather Service](https://www.weather.gov/) |
+| Alerts in Brazil | Not available yet |
 
-Weather is computed from OpenWeather API.
+## Run it locally
 
-### Installation
-An API key from [OpenWeather](https://openweathermap.org/appid) is required and it should be saved as ```api.key``` in the root folder.
+You need [Node.js](https://nodejs.org/) 22 or newer.
 
-Create an virtual environment:
-```
-virtualenv .venv
-```
-
-Run the `setup.py` file and project will be ready to use:
-```
-python setup.py develop
-```
-
-### Usage
-To get the weather of a specific city, an OpenWeather ID is required. Those IDs can be found at a [bulk samples page](http://bulk.openweathermap.org/sample/) or by using ```search_city()``` method:
-```python
-from openweather import OpenWeatherMap
-
-#  Line below will show all existent Ottawas IDs (three in USA and one in Canada)
-print([id_ for id_, country, coordinates in OpenWeatherMap.search_city("Ottawa")])
+```sh
+npm install
+npm run dev
 ```
 
-After picking an ID, the weather resume method can be called like the following example:
-```python
-from weatherwizard import WeatherWizard
+Then open the address it prints (usually http://localhost:5173).
 
-ww = WeatherWizard(6094817)  # Ottawa(CANADA)
-print(ww.weather())
+Other commands:
+
+```sh
+npm test          # run the test suite
+npm run build     # production build into dist/
+npm run preview   # serve the production build
 ```
-Alerts can be added to the weather method response by adding the ```search_alerts``` flag:
-```python
-ww.weather(search_alerts=True)
-```
-Not all countries have public weather interfaces for this functionality and therefore a console message will be printed instead of an exception (for now).
 
-### Alerts
-Alerts are computed from different public entities. It uses the same city ID (from OpenWeather) to search for any active alert.
-Its implementation is quite similar the ```weather``` function:
-```python
-from alerts.alerts import Alerts
+## Publishing the demo
 
-alert = Alerts(6167865)  # Toronto
-if alert.has_alert():
-    print(alert.get_message())
-```  
+Every push to `master` runs the tests, builds the site and deploys it to GitHub Pages. To turn this on for a fork, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
 
-## Interface
-An HTML interface was designed for this project to display many cities from some countries.
+## History
 
-A server should be running in order to accept requests from the interface:
-```
-python server.py 
-```
-Keep in mind that useful output can be printed when this process is open.
+Weather Wizard started in 2019 as a Python app: a small local server called OpenWeather with a personal API key and scraped government alert feeds, and a plain HTML page drew the bubbles. In 2026 it was rebuilt as a static TypeScript app so it can run anywhere, including GitHub Pages, without a server or a key. The rules that pick each city's look are the same, with a couple of old bugs fixed.
 
-Open the ```index.html``` file to interact with available country data.
+The original version is preserved under the git tag `v1-python-2019`.
+
+## License
+
+[GNU General Public License v3.0](LICENSE)
